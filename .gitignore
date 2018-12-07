@@ -1,0 +1,10 @@
+.env
+.enc
+.stack-work/
+sugina.cabal
+*~
+client_session_key.aes
+*.db
+*.db-shm
+*.db-wal
+nohup.out

@@ -1,0 +1,70 @@
+name: sugina
+version: 0.1.0.0
+git: ssh://git@198.13.39.45:23040/sgal/sugina.git
+license: BSD3
+author: sgal
+copyright: "2018 sgal"
+
+default-extensions:
+- GADTs
+- LambdaCase
+- OverloadedStrings
+- QuasiQuotes
+- TemplateHaskell
+- ViewPatterns
+
+extra-source-files:
+- README.rst
+
+# Package metadata
+synopsis: Server configurations and files by sgal.
+category: Web
+
+description: See package README for details.
+
+dependencies:
+- base >= 4.8.2.0 && < 4.9 || >= 4.9.1.0 && < 5
+- bytestring >= 0.9 && < 0.11
+- containers
+- file-embed
+- monad-logger >= 0.3 && < 0.4
+- persistent >= 2.8 && < 2.9
+- persistent-sqlite >= 2.8 && < 2.9
+- persistent-template >= 2.5 && < 2.9
+- random >= 1.1 && < 2
+- shakespeare >= 2.0 && < 2.1
+- text >= 0.11 && < 2.0
+- time
+- transformers >= 0.5 && < 1
+- warp >= 3.0 && < 3.3
+- yesod >= 1.6 && < 1.7
+- yesod-auth >= 1.6 && < 1.7
+- yesod-auth-oauth2 >= 0.6
+- yesod-core >= 1.6 && < 1.7
+- yesod-form >= 1.6 && < 1.7
+- yesod-static >= 1.6 && < 1.7
+
+library:
+  source-dirs: lib
+  ghc-options:
+  - -O
+  - -Wall
+  - -Werror
+  dependencies:
+  - aeson >= 0.6 && < 1.4
+  - directory >= 1.1 && < 1.4
+  - regex-pcre-builtin >= 0.94 && < 1
+
+executables:
+  sugina:
+    main: Main.hs
+    source-dirs: src
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -O
+    - -Wall
+    - -Werror
+    dependencies:
+    - sugina
