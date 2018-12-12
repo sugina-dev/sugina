@@ -1,17 +1,17 @@
 {-# LANGUAGE DeriveGeneric #-}
 
-module Enc where
+module Secret where
 
 import Data.Aeson (FromJSON)
 import Data.Map.Strict (Map)
 import Data.Text (Text)
 import GHC.Generics (Generic)
 
-data Enc = Enc
+data Secret = Secret
   { getHardcodedUsers     :: Map Text Text
   , getGitLabClientId     :: Text
   , getGitLabClientSecret :: Text
   , getApproot            :: Text
   } deriving (Generic, Show)
 
-instance FromJSON Enc
+instance FromJSON Secret

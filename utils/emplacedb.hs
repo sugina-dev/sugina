@@ -14,38 +14,15 @@
 
 -- Usage: Run by runhaskell.
 
-import Data.Aeson (FromJSON, decodeFileStrict)
-import Data.Map.Strict (Map)
+import Data.Aeson (decodeFileStrict)
 import qualified Data.Map.Strict as M (keys)
-import Data.Text (Text)
 import qualified Data.Text as T
 import qualified Data.Text.IO as T
 import Database.Persist
 import Database.Persist.Sqlite
-import Database.Persist.TH
-import GHC.Generics (Generic)
 
-share [mkPersist sqlSettings, mkMigrate "migrateAll"] [persistLowerCase|
-Kunyomi json
-  wordEntity Text
-  yomikata Text
-  deriving Show
-ServerUser
-  credsPlugin Text
-  credsIdent Text
-  name Text
-  isAdmin Bool
-  deriving Show
-|]
-
-data Enc = Enc
-  { getHardcodedUsers     :: Map Text Text
-  , getGitLabClientId     :: Text
-  , getGitLabClientSecret :: Text
-  , getApproot            :: Text
-  } deriving (Generic, Show)
-
-instance FromJSON Enc
+import DB
+import Secret
 
 main :: IO ()
 main = do
@@ -53,7 +30,7 @@ main = do
   lns <- fmap T.lines $ T.readFile "utils/kunyomi.txt"
   let (kunyomiWrd, yomikata) = unzip $ fmap ((\[l,r] -> (l, r)) . T.split (== '\t')) lns
   -- ServerUser
-  Just Enc{getHardcodedUsers} <- decodeFileStrict ".enc"
+  Just Secret{getHardcodedUsers} <- decodeFileStrict ".secret.json"
   let unames = M.keys getHardcodedUsers
   -- Migrate
   runSqlite "data.db" $ do

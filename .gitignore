@@ -1,5 +1,4 @@
-.env
-.enc
+.secret.json
 .stack-work/
 sugina.cabal
 *~

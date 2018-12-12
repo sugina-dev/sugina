@@ -3,4 +3,4 @@ default : pubdyn/static/.makefile
 
 bootstrap :
 	stack build
-	stack runhaskell -- utils/emplacedb.hs --Wall -Werror
+	stack runhaskell -- -Wall -Werror utils/emplacedb.hs

@@ -19,8 +19,8 @@ mkYesodDispatch "App" resourcesApp
 
 main :: IO ()
 main = do
-  -- Handling Enc
-  Just enc <- decodeFileStrict ".enc"
+  -- Handling secret
+  Just secret <- decodeFileStrict ".secret.json"
   -- Run migration
   runSqlite "data.db" $ runMigration migrateAll
   -- Start server
@@ -33,6 +33,6 @@ main = do
         { getPubdyn = pubdyn  -- For static files
         , getPubsta = pubsta  -- For static files
         , getPool   = pool    -- For Database
-        , getEnc    = enc     -- For Hard-coded Auth Routine
+        , getSecret = secret  -- For Hard-coded Auth Routine
         }
       run 80 wApp

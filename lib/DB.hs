@@ -20,5 +20,6 @@ ServerUser
   credsIdent Text
   name Text
   isAdmin Bool
+  UniqueServerUser credsPlugin credsIdent
   deriving Show
 |]

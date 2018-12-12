@@ -6,9 +6,15 @@
 
 module Foundation where
 
+import Data.Aeson ((.:), decode)
+import Data.Aeson.Types (parseMaybe)
+import Data.Foldable (find)
 import Data.Map.Strict ((!?))
 import qualified Data.Map.Strict as M (member)
+import Data.Maybe (fromJust)
 import Data.Text (Text)
+import qualified Data.Text.Lazy as TL (fromStrict)
+import qualified Data.Text.Lazy.Encoding as TL (encodeUtf8)
 import Database.Persist
 import Database.Persist.Sql (ConnectionPool)
 import Database.Persist.Sqlite
@@ -20,13 +26,13 @@ import qualified Yesod.Auth.Message as Msg
 import Yesod.Static (Static)
 
 import DB
-import Enc
+import Secret
 
 data App = App
   { getPubdyn :: Static
   , getPubsta :: Static
   , getPool   :: ConnectionPool
-  , getEnc    :: Enc
+  , getSecret :: Secret
   }
 
 mkYesodData "App" [parseRoutesNoCheck|
@@ -43,7 +49,7 @@ mkYesodData "App" [parseRoutesNoCheck|
 |]
 
 instance Yesod App where
-  approot = ApprootMaster $ \App{getEnc} -> let Enc{getApproot} = getEnc in getApproot
+  approot = ApprootMaster $ \App{getSecret} -> let Secret{getApproot} = getSecret in getApproot
   isAuthorized RootR         False = pure Authorized
   isAuthorized (AuthR _    ) _     = pure Authorized
   isAuthorized UserNameR     False = pure Authorized
@@ -66,7 +72,7 @@ instance RenderMessage App FormMessage where
 
 instance YesodAuth App where
   type AuthId App = ServerUserId
-  authPlugins App{getEnc} = let Enc{getGitLabClientId,getGitLabClientSecret} = getEnc in
+  authPlugins App{getSecret} = let Secret{getGitLabClientId,getGitLabClientSecret} = getSecret in
     [ authHardcoded
     , oauth2GitLab getGitLabClientId getGitLabClientSecret
     ]
@@ -87,7 +93,18 @@ authenticateHardcoded Creds{credsIdent} = fmap Authenticated
   $ selectKeysList [ServerUserCredsPlugin ==. "hardcoded", ServerUserCredsIdent ==. credsIdent] []
 
 authenticateGitLab :: (MonadHandler m, HandlerSite m ~ App) => Creds master -> m (AuthenticationResult App)
-authenticateGitLab _ = pure undefined
+authenticateGitLab Creds{credsIdent,credsExtra} = fmap Authenticated
+  $ liftHandler
+  $ runDB
+  $ fmap entityKey
+  $ upsertBy (UniqueServerUser "gitlab" credsIdent) (ServerUser "gitlab" credsIdent (getGitLabUserName credsExtra) False) []
+
+-- | Get GitLab user name from credsExtra
+getGitLabUserName :: [(Text, Text)] -> Text
+getGitLabUserName ce = fromJust $ do
+  (_, ur) <- find ((== "userResponse") . fst) ce
+  res <- decode $ TL.encodeUtf8 . TL.fromStrict $ ur
+  parseMaybe (.: "name") res
 
 instance YesodPersist App where
   type YesodPersistBackend App = SqlBackend
@@ -98,8 +115,8 @@ instance YesodAuthPersist App where
 
 instance YesodAuthHardcoded App where
   doesUserNameExist uname = do
-    hu <- fmap (getHardcodedUsers . getEnc) getYesod
+    hu <- fmap (getHardcodedUsers . getSecret) getYesod
     pure $ uname `M.member` hu
   validatePassword uname pwd = do
-    hu <- fmap (getHardcodedUsers . getEnc) getYesod
+    hu <- fmap (getHardcodedUsers . getSecret) getYesod
     pure $ hu !? uname == Just pwd

@@ -34,10 +34,10 @@ Get Kunyomi    Get the Kunyomi of a   * **GET** ``/api/kunyomi``
                                       * **Defined in** ``src/Handler/Kunyomi.hs``
 ============== ====================== ============================================
 
-Enc
----
+Secret
+------
 
-The ``.enc`` file is used for the server to set password and other stuff that could not be open to the public. The whole file should be a JSON object with the following contents:
+The ``.secret.json`` file is used for the server to set password and other stuff that could not be open to the public. The whole file should be a JSON object with the following contents:
 
 ======================== =======================
 Key                      Value
