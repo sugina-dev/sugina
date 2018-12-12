@@ -1,9 +1,9 @@
 name: sugina
 version: 0.1.0.0
-git: ssh://git@198.13.39.45:23040/sgal/sugina.git
+git: https://gitlab.com/kakitsubata/sugina.git
 license: BSD3
-author: sgal
-copyright: "2018 sgal"
+author: Kakitsubata
+copyright: "2018 Sugina Development Group"
 
 default-extensions:
 - GADTs
@@ -17,7 +17,7 @@ extra-source-files:
 - README.rst
 
 # Package metadata
-synopsis: Server configurations and files by sgal.
+synopsis: Server configurations and files by Sugina Development Group.
 category: Web
 
 description: See package README for details.

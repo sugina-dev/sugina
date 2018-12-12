@@ -39,7 +39,10 @@ ServerUser
 |]
 
 data Enc = Enc
-  { getHardcodedUsers :: Map Text Text
+  { getHardcodedUsers     :: Map Text Text
+  , getGitLabClientId     :: Text
+  , getGitLabClientSecret :: Text
+  , getApproot            :: Text
   } deriving (Generic, Show)
 
 instance FromJSON Enc

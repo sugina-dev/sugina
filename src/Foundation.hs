@@ -15,6 +15,7 @@ import Database.Persist.Sqlite
 import Yesod
 import Yesod.Auth
 import Yesod.Auth.Hardcoded
+import Yesod.Auth.OAuth2.GitLab
 import qualified Yesod.Auth.Message as Msg
 import Yesod.Static (Static)
 
@@ -42,6 +43,7 @@ mkYesodData "App" [parseRoutesNoCheck|
 |]
 
 instance Yesod App where
+  approot = ApprootMaster $ \App{getEnc} -> let Enc{getApproot} = getEnc in getApproot
   isAuthorized RootR         False = pure Authorized
   isAuthorized (AuthR _    ) _     = pure Authorized
   isAuthorized UserNameR     False = pure Authorized
@@ -64,10 +66,14 @@ instance RenderMessage App FormMessage where
 
 instance YesodAuth App where
   type AuthId App = ServerUserId
-  authPlugins _ = [authHardcoded]
+  authPlugins App{getEnc} = let Enc{getGitLabClientId,getGitLabClientSecret} = getEnc in
+    [ authHardcoded
+    , oauth2GitLab getGitLabClientId getGitLabClientSecret
+    ]
   authenticate c@Creds{credsPlugin} =
     case credsPlugin of
       "hardcoded" -> authenticateHardcoded c
+      "gitlab"    -> authenticateGitLab c
       _           -> pure $ UserError Msg.InvalidLogin
   loginDest _ = RootR
   logoutDest _ = RootR
@@ -79,6 +85,9 @@ authenticateHardcoded Creds{credsIdent} = fmap Authenticated
   $ runDB
   $ fmap (\[x] -> x)
   $ selectKeysList [ServerUserCredsPlugin ==. "hardcoded", ServerUserCredsIdent ==. credsIdent] []
+
+authenticateGitLab :: (MonadHandler m, HandlerSite m ~ App) => Creds master -> m (AuthenticationResult App)
+authenticateGitLab _ = pure undefined
 
 instance YesodPersist App where
   type YesodPersistBackend App = SqlBackend
