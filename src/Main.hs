@@ -35,4 +35,3 @@ main = do
         , getPool   = pool    -- For Database
         , getSecret = secret  -- For Hard-coded Auth Routine
         }
-      run 80 wApp

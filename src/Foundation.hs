@@ -29,10 +29,10 @@ import DB
 import Secret
 
 data App = App
-  { getPubdyn :: Static
-  , getPubsta :: Static
-  , getPool   :: ConnectionPool
-  , getSecret :: Secret
+  { getPubdyn :: !Static
+  , getPubsta :: !Static
+  , getPool   :: !ConnectionPool
+  , getSecret :: !Secret
   }
 
 mkYesodData "App" [parseRoutesNoCheck|
@@ -51,7 +51,7 @@ mkYesodData "App" [parseRoutesNoCheck|
 instance Yesod App where
   approot = ApprootMaster $ \App{getSecret} -> let Secret{getApproot} = getSecret in getApproot
   isAuthorized RootR         False = pure Authorized
-  isAuthorized (AuthR _    ) _     = pure Authorized
+  isAuthorized (AuthR _ )    _     = pure Authorized
   isAuthorized UserNameR     False = pure Authorized
   isAuthorized DictumR       False = pure Authorized
   isAuthorized (KunyomiR _)  False = pure Authorized
@@ -86,25 +86,33 @@ instance YesodAuth App where
   onLogin = pure ()
 
 authenticateHardcoded :: (MonadHandler m, HandlerSite m ~ App) => Creds master -> m (AuthenticationResult App)
-authenticateHardcoded Creds{credsIdent} = fmap Authenticated
+authenticateHardcoded Creds{credsIdent}
+  = fmap Authenticated
   $ liftHandler
   $ runDB
   $ fmap (\[x] -> x)
   $ selectKeysList [ServerUserCredsPlugin ==. "hardcoded", ServerUserCredsIdent ==. credsIdent] []
 
 authenticateGitLab :: (MonadHandler m, HandlerSite m ~ App) => Creds master -> m (AuthenticationResult App)
-authenticateGitLab Creds{credsIdent,credsExtra} = fmap Authenticated
+authenticateGitLab Creds{credsIdent,credsExtra}
+  = fmap Authenticated
   $ liftHandler
   $ runDB
   $ fmap entityKey
-  $ upsertBy (UniqueServerUser "gitlab" credsIdent) (ServerUser "gitlab" credsIdent (getGitLabUserName credsExtra) False) []
+  $ upsert (ServerUser "gitlab" credsIdent (getGitLabUserName credsExtra) False) []
 
 -- | Get GitLab user name from credsExtra
 getGitLabUserName :: [(Text, Text)] -> Text
-getGitLabUserName ce = fromJust $ do
-  (_, ur) <- find ((== "userResponse") . fst) ce
-  res <- decode $ TL.encodeUtf8 . TL.fromStrict $ ur
-  parseMaybe (.: "name") res
+getGitLabUserName
+  = fromJust
+  . parseMaybe (.: "name")
+  . fromJust
+  . decode
+  . TL.encodeUtf8
+  . TL.fromStrict
+  . snd
+  . fromJust
+  . find (\p -> fst p == "userResponse")
 
 instance YesodPersist App where
   type YesodPersistBackend App = SqlBackend

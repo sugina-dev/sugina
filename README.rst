@@ -6,14 +6,14 @@ Sugina
 Build and Run
 -------------
 
-=================== ===================================================
+=================== ==============================================================
 **Prerequisites**   * make
                     * `Stack <https://www.haskellstack.org/>`_
-**Build**           * Setup ``.enc`` file correctly (See section Enc_)
+**Build**           * Setup ``.secret.json`` file correctly (See section Secret_)
                     * ``make bootstrap``
 **Rebuild**         ``stack build``
 **Run**             ``stack exec -- sugina``
-=================== ===================================================
+=================== ==============================================================
 
 APIs
 ----

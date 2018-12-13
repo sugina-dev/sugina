@@ -1,16 +1,4 @@
-{-# LANGUAGE
-    DeriveGeneric
-  , FlexibleInstances
-  , GADTs
-  , GeneralizedNewtypeDeriving
-  , MultiParamTypeClasses
-  , NamedFieldPuns
-  , OverloadedStrings
-  , QuasiQuotes
-  , TemplateHaskell
-  , TypeFamilies
-  , ViewPatterns
-  #-}
+{-# LANGUAGE NamedFieldPuns, OverloadedStrings #-}
 
 -- Usage: Run by runhaskell.
 

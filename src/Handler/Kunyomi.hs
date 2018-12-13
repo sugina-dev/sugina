@@ -12,7 +12,8 @@ import DB
 import Foundation
 
 queryOne :: Text -> Handler [Text]
-queryOne wrd = runDB
+queryOne wrd
+  = runDB
   $ fmap (fmap (kunyomiYomikata . entityVal))
   $ selectList [KunyomiWordEntity ==. wrd] []
 

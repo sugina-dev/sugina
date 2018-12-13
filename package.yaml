@@ -48,6 +48,7 @@ dependencies:
 library:
   source-dirs: lib
   ghc-options:
+  - -funbox-strict-fields
   - -O
   - -Wall
   - -Werror
@@ -64,6 +65,7 @@ executables:
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
+    - -funbox-strict-fields
     - -O
     - -Wall
     - -Werror
