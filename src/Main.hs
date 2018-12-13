@@ -4,6 +4,7 @@ import Control.Monad.Logger (runStderrLoggingT)
 import Data.Aeson (decodeFileStrict)
 import Database.Persist.Sqlite
 import Network.Wai.Handler.Warp (run)
+import Network.Wai.Middleware.Gzip
 import Yesod
 import Yesod.Auth (getAuth)
 import Yesod.Static (static, staticDevel)
@@ -35,3 +36,4 @@ main = do
         , getPool   = pool    -- For Database
         , getSecret = secret  -- For Hard-coded Auth Routine
         }
+      run 80 $ gzip (def {gzipFiles = GzipCompress, gzipCheckMime = const True}) $ wApp
