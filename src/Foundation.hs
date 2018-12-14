@@ -29,10 +29,12 @@ import DB
 import Secret
 
 data App = App
-  { getPubdyn :: !Static
+  { getSecret :: !Secret
+  , getPridyn :: !Static
+  , getPrista :: !Static
+  , getPubdyn :: !Static
   , getPubsta :: !Static
   , getPool   :: !ConnectionPool
-  , getSecret :: !Secret
   }
 
 mkYesodData "App" [parseRoutesNoCheck|
@@ -44,6 +46,8 @@ mkYesodData "App" [parseRoutesNoCheck|
 /api/dictum DictumR GET
 /api/kunyomi/#Text KunyomiR GET
 
+/pridyn PridynR Static getPridyn
+/prista PristaR Static getPrista
 /pubdyn PubdynR Static getPubdyn
 / PubstaR Static getPubsta
 |]
@@ -55,6 +59,8 @@ instance Yesod App where
   isAuthorized UserNameR     False = pure Authorized
   isAuthorized DictumR       False = pure Authorized
   isAuthorized (KunyomiR _)  False = pure Authorized
+  isAuthorized (PridynR _)   False = checkAdminById =<< maybeAuthId
+  isAuthorized (PristaR _)   False = checkAdminById =<< maybeAuthId
   isAuthorized (PubdynR _)   False = pure Authorized
   isAuthorized (PubstaR _)   False = pure Authorized
   isAuthorized _             _     = checkAdminById =<< maybeAuthId

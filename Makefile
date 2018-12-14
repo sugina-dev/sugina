@@ -1,5 +1,5 @@
-default : pubdyn/static/.makefile
-	cd pubdyn/static && $(MAKE) -f .makefile
+default : pubdyn/articles/.makefile
+	cd pubdyn/articles && $(MAKE) -f .makefile
 
 bootstrap :
 	stack build

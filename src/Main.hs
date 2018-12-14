@@ -1,3 +1,4 @@
+{-# LANGUAGE NamedFieldPuns  #-}
 {-# OPTIONS_GHC -Wno-orphans #-}
 
 import Control.Monad.Logger (runStderrLoggingT)
@@ -15,25 +16,30 @@ import Handler.Dictum (getDictumR)
 import Handler.Kunyomi (getKunyomiR)
 import Handler.Root (getRootR)
 import Handler.UserName (getUserNameR)
+import Secret
 
 mkYesodDispatch "App" resourcesApp
 
 main :: IO ()
 main = do
   -- Handling secret
-  Just secret <- decodeFileStrict ".secret.json"
+  Just secret@Secret{getPridynPath,getPristaPath} <- decodeFileStrict ".secret.json"
   -- Run migration
   runSqlite "data.db" $ runMigration migrateAll
   -- Start server
   runStderrLoggingT
     $ withSqlitePool "data.db" 10  -- openConnectionCount
     $ \pool -> liftIO $ do
-      pubdyn <- staticDevel "pubdyn"  -- Public, Dynamic
-      pubsta <- static      "pubsta"  -- Public, Static
+      pridyn <- staticDevel getPridynPath  -- Private, Dynamic
+      prista <- static      getPristaPath
+      pubdyn <- staticDevel "pubdyn"       -- Public, Dynamic
+      pubsta <- static      "pubsta"       -- Public, Static
       wApp <- toWaiApp App
-        { getPubdyn = pubdyn  -- For static files
+        { getSecret = secret  -- For start-up configurations
+        , getPridyn = pridyn  -- For static files
+        , getPrista = prista  -- For static files
+        , getPubdyn = pubdyn  -- For static files
         , getPubsta = pubsta  -- For static files
         , getPool   = pool    -- For Database
-        , getSecret = secret  -- For Hard-coded Auth Routine
         }
-      run 80 $ gzip (def {gzipFiles = GzipCompress, gzipCheckMime = const True}) $ wApp
+      run 80 $ gzip def{gzipFiles = GzipCompress} $ wApp
