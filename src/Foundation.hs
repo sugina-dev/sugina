@@ -39,6 +39,7 @@ data App = App
 
 mkYesodData "App" [parseRoutesNoCheck|
 / RootR GET
+/home HomeR GET
 /auth AuthR Auth getAuth
 
 /api/username UserNameR GET
@@ -55,6 +56,7 @@ mkYesodData "App" [parseRoutesNoCheck|
 instance Yesod App where
   approot = ApprootMaster $ \App{getSecret} -> let Secret{getApproot} = getSecret in getApproot
   isAuthorized RootR         False = pure Authorized
+  isAuthorized HomeR         False = pure Authorized
   isAuthorized (AuthR _ )    _     = pure Authorized
   isAuthorized UserNameR     False = pure Authorized
   isAuthorized DictumR       False = pure Authorized
@@ -87,7 +89,7 @@ instance YesodAuth App where
       "hardcoded" -> authenticateHardcoded c
       "gitlab"    -> authenticateGitLab c
       _           -> pure $ UserError Msg.InvalidLogin
-  loginDest _ = RootR
+  loginDest _ = HomeR
   logoutDest _ = RootR
   onLogin = pure ()
 

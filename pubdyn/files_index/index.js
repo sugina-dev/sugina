@@ -23,7 +23,7 @@ window.onload = function() {
     function handleResponse2() {
         if (httpRequest2.readyState == 4 && httpRequest2.status == 200) {
             var res = JSON.parse(httpRequest2.responseText);
-            document.getElementById("span_userinfo").innerHTML = !res ?
+            document.getElementById("ul_userinfo").innerHTML = !res ?
                 "<li class=\"pure-menu-item\"><a href=\"\/auth\/login\" class=\"pure-menu-link\">Log In<\/a><\/li>" :
                 "<li class=\"pure-menu-item\">Welcome, " + res + "<\/li>" +
                 "<li class=\"pure-menu-item\"><a href=\"\/auth\/logout\" class=\"pure-menu-link\">Log Out<\/a><\/li>";
