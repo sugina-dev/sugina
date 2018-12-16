@@ -3,7 +3,6 @@ html,body{
 }
 
 body{
-	background: #2C1B56 url(https://apiblueprint.org/images/index-bg-06ef8c4d.jpg) no-repeat bottom center;
 	background-size: 100% auto;
 	padding-bottom: 1rem;
 	padding-left: 20%;
@@ -25,14 +24,6 @@ body{
 h1,h2,h3,h4,p,body>ul,body>:not(nav) ul,body>ol,body>:not(nav) ol,table,textarea,button{
 	font-family: "Times New Roman", Times, "Source Han Serif SC", "SimSun", sans-serif;
 	letter-spacing: 0.0375em;
-}
-
-body,button,input{
-	color: #DEDEFF;
-}
-
-textarea{
-	background-color: #DEDEFF;
 }
 
 h2{

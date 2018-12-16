@@ -24,9 +24,9 @@ window.onload = function() {
         if (httpRequest2.readyState == 4 && httpRequest2.status == 200) {
             var res = JSON.parse(httpRequest2.responseText);
             document.getElementById("ul_userinfo").innerHTML = !res ?
-                "<li class=\"pure-menu-item\"><a href=\"\/auth\/login\" class=\"pure-menu-link\">Log In<\/a><\/li>" :
-                "<li class=\"pure-menu-item\">Welcome, " + res + "<\/li>" +
-                "<li class=\"pure-menu-item\"><a href=\"\/auth\/logout\" class=\"pure-menu-link\">Log Out<\/a><\/li>";
+                "<li><a href=\"/auth/login\">Log In</a></li>" :
+                "<li>Welcome, " + res + "</li>" +
+                "<li><a href=\"/auth/logout\">Log Out</a></li>";
         }
     }
 }

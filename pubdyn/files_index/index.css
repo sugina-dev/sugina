@@ -23,19 +23,30 @@ box-shadow: 0 1px 1px rgba(0,0,0, 0.10);
 display: block;
 padding: 0.5em;
 text-align: left;
-color: #2e2c1d;
 text-decoration: none;
 white-space: nowrap;
 }
 
 nav a {
-color: inherit;
+color: blue;
+padding: 0 1em;
+}
+
+nav a:hover {
+color: black;
 }
 
 nav>ul {
-display: contents;
 float: right;
 list-style: none;
+margin: 0;
+}
+
+nav>ul>li {
+display: block;
+float: right;
+padding: 0 1em;
+text-align: center;
 }
 
 .cover {
@@ -73,15 +84,13 @@ font-size: 175%;
 }
 
 .content {
-padding: 1em 1em 3em;
 background: #f3d1ff;
+display: flex;
+flex-wrap: wrap;
+padding: 1em 1em 3em;
 }
 
 article {
-display: inline-block;
-height: 100px;
-max-width: 200px;
-min-width: 19%;
 padding: 1em;
 }
 
