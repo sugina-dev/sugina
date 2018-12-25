@@ -21,7 +21,7 @@ nav {
 background: #ffc0cb99;
 box-shadow: 0 1px 1px rgba(0,0,0, 0.10);
 display: block;
-padding: 0.5em;
+padding: 2em;
 text-align: left;
 text-decoration: none;
 white-space: nowrap;
@@ -44,7 +44,6 @@ margin: 0;
 
 nav>ul>li {
 display: block;
-float: right;
 padding: 0 1em;
 text-align: center;
 }

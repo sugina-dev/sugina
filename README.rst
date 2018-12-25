@@ -37,13 +37,4 @@ Get Kunyomi    Get the Kunyomi of a   * **GET** ``/api/kunyomi``
 Secret
 ------
 
-The ``.secret.json`` file is used for the server to set password and other stuff that could not be open to the public. The whole file should be a JSON object with the following contents:
-
-======================== =======================
-Key                      Value
-======================== =======================
-``getHardcodedUsers``    An object:
-
-                         * Key: User Name
-                         * Value: User password
-======================== =======================
+The ``.secret.json`` file is used for the server to set password and other stuff that could not be open to the public. The whole file should be a JSON object, and the format should be identical with the format defined in ``lib/Secret.hs``.

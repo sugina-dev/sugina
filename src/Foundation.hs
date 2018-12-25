@@ -27,6 +27,7 @@ import Yesod.Static (Static)
 
 import DB
 import Secret
+import Sugina.AuthHardcoded (authHardcodedAlter)
 
 data App = App
   { getSecret :: !Secret
@@ -81,7 +82,7 @@ instance RenderMessage App FormMessage where
 instance YesodAuth App where
   type AuthId App = ServerUserId
   authPlugins App{getSecret} = let Secret{getGitLabClientId,getGitLabClientSecret} = getSecret in
-    [ authHardcoded
+    [ authHardcodedAlter
     , oauth2GitLab getGitLabClientId getGitLabClientSecret
     ]
   authenticate c@Creds{credsPlugin} =
