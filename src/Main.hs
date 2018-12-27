@@ -13,7 +13,7 @@ import Yesod.Static (static, staticDevel)
 import DB
 import Foundation
 import Handler.Dictum (getDictumR)
-import Handler.Home (getHomeR)
+import Handler.IsAdmin (getIsAdminR)
 import Handler.Kunyomi (getKunyomiR)
 import Handler.Root (getRootR)
 import Handler.UserName (getUserNameR)

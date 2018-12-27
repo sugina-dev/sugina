@@ -1,6 +1,12 @@
 @font-face {
 font-family: "Alex Brush Font";
-src: url("./AlexBrush-Regular.ttf");
+src: url("/font/AlexBrush-Regular.ttf");
+}
+
+@media screen and (max-width: 768px) {
+body {
+font-size: 80%;
+}
 }
 
 * {
@@ -8,105 +14,62 @@ box-sizing: border-box;
 font-family: sans-serif;
 }
 
-a {
-text-decoration: inherit;
-}
-
 body {
-line-height: 1.7em;
+background-color: #fff2ff;
 margin: 0;
 }
 
-nav {
-background: #ffc0cb99;
-box-shadow: 0 1px 1px rgba(0,0,0, 0.10);
-display: block;
-padding: 2em;
-text-align: left;
-text-decoration: none;
-white-space: nowrap;
+p {
+line-height: 1.75;
 }
 
-nav a {
-color: blue;
-padding: 0 1em;
-}
-
-nav a:hover {
-color: black;
-}
-
-nav>ul {
-float: right;
-list-style: none;
-margin: 0;
-}
-
-nav>ul>li {
-display: block;
-padding: 0 1em;
-text-align: center;
-}
-
-.cover {
-text-align: center;
-padding: 1em 0;
-position: relative;
-}
-
-.cover::before {
-content: "";
-position: absolute;
-background: url(6631658203445421276_small.jpg) no-repeat center;
-background-size: cover;
-filter: blur(2px) opacity(38%);
-overflow: hidden;
-width: 100%;
-height: 100%;
-left: 0;
-top: 0;
-}
-
-.cover>h1 {
-color: #9000ff;
+body > h1 {
+background-color: #ffbaba;
+box-shadow: 0 1px 5px #aaa;
+color: #8b00ff;
 font-family: "Alex Brush Font", sans-serif;
-font-size: 350%;
-font-weight: bolder;
-letter-spacing: 0.1em;
-line-height: 1em;
-}
-
-.cover>p {
-color: #da00ff;
-letter-spacing: 0.05em;
-font-size: 175%;
-}
-
-.content {
-background: #f3d1ff;
-display: flex;
-flex-wrap: wrap;
-padding: 1em 1em 3em;
-}
-
-article {
+font-size: 250%;
+line-height: 1.25;
+margin: 0;
 padding: 1em;
 }
 
-article>h3 {
-color: #1f8dd6;
+body > div {
+margin: 1em;
+}
+
+.contents {
+background-image: linear-gradient(120deg, #70fcff80, #7e5eff80, #ff8ef980);
+border: 1px solid purple;
+border-radius: 7px;
+width: 80%;
+margin: 2em auto;
+padding: 1px 1em;
+}
+
+@media screen and (max-width: 480px) {
+.contents {
+width: 90%;
+}
+}
+
+.contents > header {
+text-align: center;
+padding-top: 1.5em;
+font-size: 125%;
+}
+
+.contents article {
+border: 2px solid purple;
+border-radius: 7px;
+margin: 2em 0.5em;
+padding: 0.5em 1em;
+}
+
+.contents article > h3 {
 font-style: italic;
 }
 
-.ribbon {
-background: #9bedff;
-padding: 2em;
-border-bottom: 1px solid rgba(0,0,0,0.1);
-}
-
 .footer {
-background: #b567d6;
-color: white;
 text-align: center;
-padding: 1em;
 }

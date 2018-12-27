@@ -1,32 +1,36 @@
 "use strict";
-var httpRequest;
-var httpRequest2;
 
 window.onload = function() {
-    httpRequest = new XMLHttpRequest();
-    httpRequest.onreadystatechange = handleResponse;
-    httpRequest.open("GET", "/api/dictum", true);
-    httpRequest.setRequestHeader("Content-type", "text/plain");
-    httpRequest.send();
+    fetch('/api/dictum')
+        .then(function(response) {
+          return response.text();
+        })
+        .then(function(str) {
+          document.getElementById("header_dictum").innerText = str;
+        });
 
-    httpRequest2 = new XMLHttpRequest();
-    httpRequest2.onreadystatechange = handleResponse2;
-    httpRequest2.open("GET", "/api/username", true);
-    httpRequest2.setRequestHeader("Content-type", "text/plain");
-    httpRequest2.send();
+    fetch('/api/username')
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(res) {
+            if (!res) {
+                document.getElementById("h3_userinfo").innerHTML = "<a href=\"/auth/login\">Log In</a>";
+            } else {
+                document.getElementById("h3_userinfo").innerHTML = "Welcome, " + res + ". <a href=\"/auth/logout\">Log Out</a>";
+            }
+        });
 
-    function handleResponse() {
-        if (httpRequest.readyState == 4 && httpRequest.status == 200)
-            document.getElementById("p_dictum").innerText = httpRequest.responseText;
-    }
-
-    function handleResponse2() {
-        if (httpRequest2.readyState == 4 && httpRequest2.status == 200) {
-            var res = JSON.parse(httpRequest2.responseText);
-            document.getElementById("ul_userinfo").innerHTML = !res ?
-                "<li><a href=\"/auth/login\">Log In</a></li>" :
-                "<li>Welcome, " + res + "</li>" +
-                "<li><a href=\"/auth/logout\">Log Out</a></li>";
-        }
-    }
+    fetch('/api/isadmin')
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(res) {
+            if (res) {
+                document.getElementById("span_contents_reserve").innerHTML = "<article>"
+                    +   "<h3><a href=\"/pridyn/index.html\">Administrator Tools</a></h3>"
+                    +   "<p>Administrator tools.</p>"
+                    + "</article>";
+            }
+        });
 }
