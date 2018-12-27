@@ -39,7 +39,7 @@ margin: 1em;
 }
 
 .contents {
-background-image: linear-gradient(120deg, #70fcff80, #7e5eff80, #ff8ef980);
+background-image: linear-gradient(120deg, #a3fdff80, #9c43ff80, #ffc5fc80);
 border: 1px solid purple;
 border-radius: 7px;
 width: 80%;
@@ -60,10 +60,11 @@ font-size: 125%;
 }
 
 .contents article {
+background-color: rgba(255,255,255,0.25);
 border: 2px solid purple;
 border-radius: 7px;
 margin: 2em 0.5em;
-padding: 0.5em 1em;
+padding: 0.5em 1.5em;
 }
 
 .contents article > h3 {
