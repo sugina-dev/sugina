@@ -31,24 +31,24 @@ document.addEventListener("DOMContentLoaded", function() {
                     +   "<h3><a href=\"/pridyn/index.html\">Administrator Tools</a></h3>"
                     +   "<p>Administrator tools.</p>"
                     + "</article>";
-            }
-        });
 
-    fetch('/pridyn/kakitsubata/contents.csv')
-        .then(function(response) {
-            return response.text();
-        })
-        .then(function(str) {
-            var lines = str.split('\n'), res = "";
-            for (var i = 0; i < lines.length; i++) {
-                var xs = lines[i].split(',');
-                if (xs.length == 2) {
-                    res += "<article>"
-                        +   "<h3><a href=\"/pridyn/kakitsubata/" + xs[0] + "\">" + xs[1] + "</a></h3>"
-                        +   "<p>" + xs[1] + "</p>"
-                        + "</article>";
-                }
+                fetch('/pridyn/kakitsubata/contents.csv')
+                    .then(function(response) {
+                        return response.text();
+                    })
+                    .then(function(str) {
+                        var lines = str.split('\n'), articles = "";
+                        for (var i = 0; i < lines.length; i++) {
+                            var xs = lines[i].split(',');
+                            if (xs.length == 2) {
+                                articles += "<article>"
+                                    +   "<h3><a href=\"/pridyn/kakitsubata/" + xs[0] + "\">" + xs[1] + "</a></h3>"
+                                    +   "<p>" + xs[1] + "</p>"
+                                    + "</article>";
+                            }
+                        }
+                        document.getElementById("span_contents_reserve_2").innerHTML += articles;
+                    });
             }
-            document.getElementById("span_contents_reserve_2").innerHTML += res;
         });
 });
