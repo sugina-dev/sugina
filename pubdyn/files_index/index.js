@@ -1,17 +1,17 @@
 "use strict";
 
-window.onload = function() {
+document.addEventListener("DOMContentLoaded", function() {
     fetch('/api/dictum')
         .then(function(response) {
-          return response.text();
+            return response.text();
         })
         .then(function(str) {
-          document.getElementById("header_dictum").innerText = str;
+            document.getElementById("header_dictum").innerText = str;
         });
 
     fetch('/api/username')
         .then(function(response) {
-          return response.json();
+            return response.json();
         })
         .then(function(res) {
             if (!res) {
@@ -23,14 +23,32 @@ window.onload = function() {
 
     fetch('/api/isadmin')
         .then(function(response) {
-          return response.json();
+            return response.json();
         })
         .then(function(res) {
             if (res) {
-                document.getElementById("span_contents_reserve").innerHTML = "<article>"
+                document.getElementById("span_contents_reserve_1").innerHTML = "<article>"
                     +   "<h3><a href=\"/pridyn/index.html\">Administrator Tools</a></h3>"
                     +   "<p>Administrator tools.</p>"
                     + "</article>";
             }
         });
-}
+
+    fetch('/pridyn/kakitsubata/contents.csv')
+        .then(function(response) {
+            return response.text();
+        })
+        .then(function(str) {
+            var lines = str.split('\n'), res = "";
+            for (var i = 0; i < lines.length; i++) {
+                var xs = lines[i].split(',');
+                if (xs.length == 2) {
+                    res += "<article>"
+                        +   "<h3><a href=\"/pridyn/kakitsubata/" + xs[0] + "\">" + xs[1] + "</a></h3>"
+                        +   "<p>" + xs[1] + "</p>"
+                        + "</article>";
+                }
+            }
+            document.getElementById("span_contents_reserve_2").innerHTML += res;
+        });
+});
