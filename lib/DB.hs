@@ -6,6 +6,7 @@
 
 module DB where
 
+import Data.Time.Clock (UTCTime)
 import Data.Text (Text)
 import Database.Persist.Sqlite
 import Database.Persist.TH
@@ -21,5 +22,11 @@ ServerUser
   name Text
   isAdmin Bool
   UniqueServerUser credsPlugin credsIdent
+  deriving Show
+Board json
+  time UTCTime "default=(datetime('now'))"
+  uploader ServerUserId
+  message Text
+  reply Text Maybe default=NULL
   deriving Show
 |]

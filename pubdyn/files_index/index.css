@@ -67,10 +67,10 @@ margin: 2em 0.5em;
 padding: 0.5em 1.5em;
 }
 
-.contents article > h3 {
-font-style: italic;
-}
-
 .footer {
 text-align: center;
+}
+
+#span_contents_useronly, #span_contents_adminonly {
+display: none;
 }

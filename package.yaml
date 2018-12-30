@@ -14,7 +14,7 @@ default-extensions:
 - ViewPatterns
 
 extra-source-files:
-- README.rst
+- README.md
 
 # Package metadata
 synopsis: Server configurations and files by Sugina Development Group.

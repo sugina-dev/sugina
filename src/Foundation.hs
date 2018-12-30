@@ -1,3 +1,4 @@
+{-# LANGUAGE FlexibleInstances          #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE MultiParamTypeClasses      #-}
 {-# LANGUAGE NamedFieldPuns             #-}
@@ -6,6 +7,7 @@
 
 module Foundation where
 
+import Control.Monad.Fail (MonadFail, fail)
 import Data.Aeson ((.:), decode)
 import Data.Aeson.Types (parseMaybe)
 import Data.Foldable (find)
@@ -47,12 +49,17 @@ mkYesodData "App" [parseRoutesNoCheck|
 
 /api/dictum DictumR GET
 /api/kunyomi/#Text KunyomiR GET
+/api/board/message BoardMessageR GET POST
+/api/board/manage BoardManageR GET POST
 
 /pridyn PridynR Static getPridyn
 /prista PristaR Static getPrista
 /pubdyn PubdynR Static getPubdyn
 / PubstaR Static getPubsta
 |]
+
+instance MonadFail (HandlerFor App) where
+  fail = undefined
 
 instance Yesod App where
   approot = ApprootMaster $ \App{getSecret} -> let Secret{getApproot} = getSecret in getApproot
@@ -62,11 +69,17 @@ instance Yesod App where
   isAuthorized IsAdminR      False = pure Authorized
   isAuthorized DictumR       False = pure Authorized
   isAuthorized (KunyomiR _)  False = pure Authorized
+  isAuthorized BoardMessageR _     = fmap checkLoggedInById maybeAuthId
+  isAuthorized BoardManageR  _     = checkAdminById =<< maybeAuthId
   isAuthorized (PridynR _)   False = checkAdminById =<< maybeAuthId
   isAuthorized (PristaR _)   False = checkAdminById =<< maybeAuthId
   isAuthorized (PubdynR _)   False = pure Authorized
   isAuthorized (PubstaR _)   False = pure Authorized
   isAuthorized _             _     = checkAdminById =<< maybeAuthId
+
+checkLoggedInById :: Maybe ServerUserId -> AuthResult
+checkLoggedInById Nothing  = AuthenticationRequired
+checkLoggedInById (Just _) = Authorized  
 
 checkAdminById :: Maybe ServerUserId -> Handler AuthResult
 checkAdminById Nothing    = pure AuthenticationRequired

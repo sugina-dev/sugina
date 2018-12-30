@@ -12,6 +12,7 @@ import Yesod.Static (static, staticDevel)
 
 import DB
 import Foundation
+import Handler.Board (getBoardManageR, getBoardMessageR, postBoardManageR, postBoardMessageR)
 import Handler.Dictum (getDictumR)
 import Handler.IsAdmin (getIsAdminR)
 import Handler.Kunyomi (getKunyomiR)
