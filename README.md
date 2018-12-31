@@ -37,7 +37,8 @@ _Sugina is the open-source project built for our bright futures._
 | `/api/board/manage` | **POST** | `{ boardId: Int, reply: String }` | json, `true` | `src/Handler/Board.hs` | Admin |
 | `/font/AlexBrush-Regular.ttf` | **GET** | / | Alex Brush font (under SIL Open Font License) | `pubsta/font/AlexBrush-Regular.ttf` | / |
 | `/pubdyn/transform.css` | **GET** | / | global style sheet | `pubdyn/transform.css` | / |
-| `/pridyn/kakitsubata/contents.csv` | **GET** | / | administrator posts, (a) html file name, (b) title | `/pridyn/kakitsubata/Makefile` | Admin |
+| `/pridyn/kakitsubata/index.csv` | **GET** | / | administrator posts, (a) html file name, (b) title | `~/path/to/pridyn/kakitsubata/Makefile` | Admin |
+| `/pubdyn/offprint/index.csv` | **GET** | / | public posts, (a) html file name, (b) title | `pubdyn/offprint/Makefile` | Admin |
 
 ## Secret
 

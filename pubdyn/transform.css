@@ -94,7 +94,7 @@ pre, blockquote {
 	border-radius: 0.5rem;
 }
 
-pre, blockquote, :not(pre) > code, button, input, textarea {
+pre, blockquote, button, input, textarea {
 	background-color: rgba(255,255,255,0.25);
 }
 

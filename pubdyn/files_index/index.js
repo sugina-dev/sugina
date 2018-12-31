@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (res) {
             document.getElementById("span_contents_adminonly").style.display = "inherit";
 
-            fetch('/pridyn/kakitsubata/contents.csv')
+            fetch('/pridyn/kakitsubata/index.csv')
             .then(function(response) {
                 return response.text();
             })
@@ -44,8 +44,25 @@ document.addEventListener("DOMContentLoaded", function() {
                             + "</article>";
                     }
                 }
-                document.getElementById("span_contents_reserve_2").innerHTML += articles;
+                document.getElementById("span_contents_adminonly_2").innerHTML += articles;
             });
         }
+    });
+
+    fetch('/pubdyn/offprint/index.csv')
+    .then(function(response) {
+        return response.text();
+    })
+    .then(function(str) {
+        var lines = str.split('\n'), articles = "";
+        for (var i = 0; i < lines.length; i++) {
+            var xs = lines[i].split(',');
+            if (xs.length == 2) {
+                articles += "<article>"
+                    + "<h3><a href=\"/pubdyn/offprint/" + xs[0] + ".html\">" + xs[1] + "</a></h3>"
+                    + "</article>";
+            }
+        }
+        document.getElementById("span_contents_pubdyn_offprint").innerHTML += articles;
     });
 });
