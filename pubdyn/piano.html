@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Virtual Piano</title>
+  <script src="files_piano/wad.min.js"></script>
+  <script src="files_piano/piano.js"></script>
+  <link rel="stylesheet" href="/pubdyn/transform.css" />
+</head>
+<body>
+  <h1>Virtual Piano</h1>
+  <p>Play the piano by <b><i>qwertyuiopasdfghjklzxcvbnm</i></b>!</p>
+  <textarea id="musicInterface" placeholder="Press a key to begin.." onkeydown="receiveNote(event)"></textarea>
+  <p>Powered by <a href="https://github.com/rserota/wad">Wad</a>.</p>
+</body>
+</html>
