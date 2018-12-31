@@ -1,6 +1,6 @@
 # Sugina
 
-_Sugina is the open-source project built for our bright futures._
+_Sugina is the open-source project built for our bright futures_
 
 ## Build and Run
 
@@ -38,8 +38,8 @@ _Sugina is the open-source project built for our bright futures._
 | `/font/AlexBrush-Regular.ttf` | **GET** | / | Alex Brush font (under SIL Open Font License) | `pubsta/font/AlexBrush-Regular.ttf` | / |
 | `/pubdyn/transform.css` | **GET** | / | global style sheet | `pubdyn/transform.css` | / |
 | `/pridyn/kakitsubata/index.csv` | **GET** | / | administrator posts, (a) html file name, (b) title | `~/path/to/pridyn/kakitsubata/Makefile` | Admin |
-| `/pubdyn/offprint/index.csv` | **GET** | / | public posts, (a) html file name, (b) title | `pubdyn/offprint/Makefile` | Admin |
+| `/pubdyn/offprint/index.csv` | **GET** | / | public posts, (a) html file name, (b) title | `pubdyn/offprint/Makefile` | / |
 
 ## Secret
 
-The `.secret.json` file is used for the server to set password and other stuff that could not be open to the public. The whole file should be a JSON object, and the format should be identical with the format defined in `lib/Secret.hs`.
+Secret is a self-defined data structure to store private server data. Its format is defined in `lib/Secret.hs`. The file `.secret.json` should present to start the server. The whole file should be a JSON object.
