@@ -1,5 +1,11 @@
 "use strict";
 
+function escapeHTML(html) {
+    var p = document.createElement('p');
+    p.innerText = html;
+    return p.innerHTML;
+}
+
 function rep_post(i, msgid) {
     fetch('/api/board/manage', {
         method: 'POST',
@@ -34,8 +40,8 @@ function refreshBoard() {
             content += "<tr>"
                 + "<td>" + messages[i].time + "</td>"
                 + "<td>" + messages[i].userName + "</td>"
-                + "<td>" + messages[i].message + "</td>"
-                + "<td>" + (messages[i].replymsg ? messages[i].replymsg : replyField) + "</td>"
+                + "<td>" + escapeHTML(messages[i].message) + "</td>"
+                + "<td>" + (messages[i].replymsg ? escapeHTML(messages[i].replymsg) : replyField) + "</td>"
                 + "</tr>";
         }
         content += "</table>";

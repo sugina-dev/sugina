@@ -12,11 +12,11 @@ import Database.Persist.Sqlite
 import Database.Persist.TH
 
 share [mkPersist sqlSettings, mkMigrate "migrateAll"] [persistLowerCase|
-Kunyomi json
+Kunyomi
   wordEntity Text
   yomikata Text
   deriving Show
-ServerUser
+ServerUser json
   credsPlugin Text
   credsIdent Text
   name Text

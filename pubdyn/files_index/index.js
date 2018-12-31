@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     var xs = lines[i].split(',');
                     if (xs.length == 2) {
                         articles += "<article>"
-                            + "<h3><a href=\"/pridyn/kakitsubata/" + xs[0] + "\">" + xs[1] + "</a></h3>"
+                            + "<h3><a href=\"/pridyn/kakitsubata/" + xs[0] + ".html\">" + xs[1] + "</a></h3>"
                             + "</article>";
                     }
                 }

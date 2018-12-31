@@ -46,6 +46,7 @@ mkYesodData "App" [parseRoutesNoCheck|
 
 /api/username UserNameR GET
 /api/isadmin IsAdminR GET
+/api/users UsersR GET
 
 /api/dictum DictumR GET
 /api/kunyomi/#Text KunyomiR GET
@@ -67,6 +68,7 @@ instance Yesod App where
   isAuthorized (AuthR _ )    _     = pure Authorized
   isAuthorized UserNameR     False = pure Authorized
   isAuthorized IsAdminR      False = pure Authorized
+  isAuthorized UsersR        False = checkAdminById =<< maybeAuthId
   isAuthorized DictumR       False = pure Authorized
   isAuthorized (KunyomiR _)  False = pure Authorized
   isAuthorized BoardMessageR _     = fmap checkLoggedInById maybeAuthId

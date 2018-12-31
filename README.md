@@ -24,18 +24,20 @@ _Sugina is the open-source project built for our bright futures._
 
 ## APIs
 
-| URI | Method | Path Parameter / Request Body | Return Value | Defined in |
-| :- | :- | :- | :- | :- |
-| `/api/username` | **GET** | / | json, a nullable string | `src/Handler/UserName.hs` |
-| `/api/isadmin` | **GET** | / | json, `true` if is administrator, `null` if not logged in | `src/Handler/IsAdmin.hs` |
-| `/api/dictum` | **GET** | / | text | `src/Handler/Dictum.hs` |
-| `/api/kunyomi` | **GET** | the query word | an array of all the yomikata | `src/Handler/Kunyomi.hs` |
-| `/api/board/message` | **GET** | / | all messages sent by current user | `src/Handler/Board.hs` |
-| `/api/board/message` | **POST** | json String | json, `true` | `src/Handler/Board.hs` |
-| `/api/board/manage` | **GET** | / | all previous messages | `src/Handler/Board.hs` |
-| `/api/board/manage` | **POST** | `{ boardId: Int, reply: String }` | json, `true` | `src/Handler/Board.hs` |
-| `/font/AlexBrush-Regular.ttf` | **GET** | / | Alex Brush font (under SIL Open Font License) | `pubsta/font/AlexBrush-Regular.ttf` |
-| `/pubdyn/transform.css` | **GET** | / | global style sheet | `pubdyn/transform.css` |
+| URI | Method | Path Parameter / Request Body | Return Value | Defined in | Auth |
+| :- | :- | :- | :- | :- | :- |
+| `/api/username` | **GET** | / | json, a nullable string | `src/Handler/UserName.hs` | / |
+| `/api/isadmin` | **GET** | / | json, `true` if is administrator, `null` if not logged in | `src/Handler/IsAdmin.hs` | / |
+| `/api/users` | **GET** | / | json array | `src/Handler/Users.hs` | Admin |
+| `/api/dictum` | **GET** | / | text | `src/Handler/Dictum.hs` | / |
+| `/api/kunyomi` | **GET** | the query word | json, an array of all the yomikata | `src/Handler/Kunyomi.hs` | / |
+| `/api/board/message` | **GET** | / | all messages sent by current user | `src/Handler/Board.hs` | User |
+| `/api/board/message` | **POST** | json String | json, `true` | `src/Handler/Board.hs` | User |
+| `/api/board/manage` | **GET** | / | all previous messages | `src/Handler/Board.hs` | Admin |
+| `/api/board/manage` | **POST** | `{ boardId: Int, reply: String }` | json, `true` | `src/Handler/Board.hs` | Admin |
+| `/font/AlexBrush-Regular.ttf` | **GET** | / | Alex Brush font (under SIL Open Font License) | `pubsta/font/AlexBrush-Regular.ttf` | / |
+| `/pubdyn/transform.css` | **GET** | / | global style sheet | `pubdyn/transform.css` | / |
+| `/pridyn/kakitsubata/contents.csv` | **GET** | / | administrator posts, (a) html file name, (b) title | `/pridyn/kakitsubata/Makefile` | Admin |
 
 ## Secret
 

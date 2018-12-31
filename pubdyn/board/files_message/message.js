@@ -1,5 +1,11 @@
 "use strict";
 
+function escapeHTML(html) {
+    var p = document.createElement('p');
+    p.innerText = html;
+    return p.innerHTML;
+}
+
 function btn_post() {
     fetch('/api/board/message', {
         method: 'POST',
@@ -27,7 +33,7 @@ function refreshBoard() {
         for (var i = 0; i < messages.length; i++) {
             content += "<tr>"
                 + "<td>" + messages[i].time + "</td>"
-                + "<td>" + messages[i].message + "</td>"
+                + "<td>" + escapeHTML(messages[i].message) + "</td>"
                 + "<td>" + messages[i].reply + "</td>"
                 + "</tr>";
         }

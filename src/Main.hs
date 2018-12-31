@@ -17,6 +17,7 @@ import Handler.Dictum (getDictumR)
 import Handler.IsAdmin (getIsAdminR)
 import Handler.Kunyomi (getKunyomiR)
 import Handler.Root (getRootR)
+import Handler.Users (getUsersR)
 import Handler.UserName (getUserNameR)
 import Secret
 
