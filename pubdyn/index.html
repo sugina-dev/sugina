@@ -5,7 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The Sugina Development Group</title>
   <script src="files_index/index.js"></script>
-  <link rel="stylesheet" href="files_index/index.css">
+  <link rel="stylesheet" href="files_index/index.css" />
+
+  <!-- live2d -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+  <link rel="stylesheet" href="/live2d/live2d/css/live2d.css" />
 </head>
 <body>
   <h1>The Sugina Development Group</h1>
@@ -45,6 +49,17 @@
       <p>This site is open-source. <strong>Sugina</strong> is the project built for our bright futures.</p>
     </article>
   </div>
-  <p class="footer">啊 Copyright &copy; 2018-2019 the Sugina Development Group</p>
+  <p class="footer">Copyright &copy; 2018-2019 the Sugina Development Group</p>
+
+  <!-- live2d -->
+  <div id="landlord">
+    <div class="message" style="opacity:0"></div>
+    <canvas id="live2d" width="280" height="250" class="live2d"></canvas>
+  </div>
+  <script type="text/javascript" src="/live2d/live2d/js/live2d.js"></script>
+  <script type="text/javascript" src="/live2d/live2d/js/message.js"></script>
+  <script type="text/javascript">
+    loadlive2d("live2d", "/live2d/live2d/model/tia/model.json");
+  </script>
 </body>
 </html>
