@@ -12,7 +12,12 @@ _Sugina is the open-source project built for our bright futures_
 **Build (Once)**
 
 * Setup `.secret.json` file correctly (See section _Secret_)
-* `make bootstrap`
+
+``` bash
+$ git submodule init
+$ git submodule update
+$ make bootstrap
+```
 
 **Build (Many Times)**
 
