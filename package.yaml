@@ -3,7 +3,7 @@ version: 0.1.0.0
 git: https://gitlab.com/kakitsubata/sugina.git
 license: BSD3
 author: Kakitsubata
-copyright: "2018 Sugina Development Group"
+copyright: "2018-2019 Sugina Development Group"
 
 default-extensions:
 - GADTs
@@ -39,6 +39,7 @@ dependencies:
 - transformers >= 0.5 && < 1
 - wai-extra >= 3.0 && < 3.1
 - warp >= 3.0 && < 3.3
+- warp-tls >= 3.0 && < 3.3
 - yesod >= 1.6 && < 1.7
 - yesod-auth >= 1.6 && < 1.7
 - yesod-auth-oauth2 >= 0.6

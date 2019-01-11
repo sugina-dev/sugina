@@ -4,10 +4,7 @@ _Sugina is the open-source project built for our bright futures_
 
 ## Build and Run
 
-**Prerequisites**
-
-* [Stack](https://www.haskellstack.org/)
-* make
+**Prerequisites**: [Haskell Stack](https://www.haskellstack.org/), make
 
 **Build (Once)**
 
@@ -19,13 +16,13 @@ $ git submodule update
 $ make bootstrap
 ```
 
-**Build (Many Times)**
+**Build (Many Times)**: `stack build`
 
-* `stack build`
+**Run**: `stack exec -- sugina`
 
-**Run**
+## Project Structure
 
-* `stack exec -- sugina`
+Backend: `lib/`, `src/`; Frontend: `pubsta/`, `pubdyn/`
 
 ## APIs
 

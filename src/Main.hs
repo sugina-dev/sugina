@@ -4,7 +4,8 @@
 import Control.Monad.Logger (runStderrLoggingT)
 import Data.Aeson (decodeFileStrict)
 import Database.Persist.Sqlite
-import Network.Wai.Handler.Warp (run)
+import Network.Wai.Handler.Warp (defaultSettings, setPort)
+import Network.Wai.Handler.WarpTLS (defaultTlsSettings, runTLS)
 import Network.Wai.Middleware.Gzip
 import Yesod
 import Yesod.Auth (getAuth)
@@ -45,4 +46,6 @@ main = do
         , getPubsta = pubsta  -- For static files
         , getPool   = pool    -- For Database
         }
-      run 80 $ gzip def{gzipFiles = GzipCompress} $ wApp
+      runTLS defaultTlsSettings (setPort 443 defaultSettings)
+        $ gzip def{gzipFiles = GzipCompress}
+        $ wApp
