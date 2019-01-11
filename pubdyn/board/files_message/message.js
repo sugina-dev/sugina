@@ -34,7 +34,7 @@ function refreshBoard() {
             content += "<tr>"
                 + "<td>" + messages[i].time + "</td>"
                 + "<td>" + escapeHTML(messages[i].message) + "</td>"
-                + "<td>" + messages[i].reply + "</td>"
+                + "<td>" + escapeHTML(messages[i].reply) + "</td>"
                 + "</tr>";
         }
         content += "</table>";
