@@ -8,12 +8,14 @@ import Data.Text (Text)
 import GHC.Generics (Generic)
 
 data Secret = Secret
-  { getHardcodedUsers     :: !(Map Text Text)
-  , getGitLabClientId     :: !Text
-  , getGitLabClientSecret :: !Text
-  , getApproot            :: !Text
-  , getPridynPath         :: !String
-  , getPristaPath         :: !String
+  { getHardcodedUsers      :: !(Map Text Text)
+  , getGitLabClientId      :: !Text
+  , getGitLabClientSecret  :: !Text
+  , getApproot             :: !Text
+  , getPridynPath          :: !FilePath
+  , getPristaPath          :: !FilePath
+  , getCertificateFilePath :: !FilePath
+  , getKeyFilePath         :: !FilePath
   } deriving (Generic, Show)
 
 instance FromJSON Secret

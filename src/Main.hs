@@ -5,7 +5,7 @@ import Control.Monad.Logger (runStderrLoggingT)
 import Data.Aeson (decodeFileStrict)
 import Database.Persist.Sqlite
 import Network.Wai.Handler.Warp (defaultSettings, setPort)
-import Network.Wai.Handler.WarpTLS (defaultTlsSettings, runTLS)
+import Network.Wai.Handler.WarpTLS (tlsSettings, runTLS)
 import Network.Wai.Middleware.Gzip
 import Yesod
 import Yesod.Auth (getAuth)
@@ -27,7 +27,7 @@ mkYesodDispatch "App" resourcesApp
 main :: IO ()
 main = do
   -- Handling secret
-  Just secret@Secret{getPridynPath,getPristaPath} <- decodeFileStrict ".secret.json"
+  Just secret@Secret{getPridynPath,getPristaPath,getCertificateFilePath,getKeyFilePath} <- decodeFileStrict ".secret.json"
   -- Run migration
   runSqlite "data.db" $ runMigration migrateAll
   -- Start server
@@ -46,6 +46,6 @@ main = do
         , getPubsta = pubsta  -- For static files
         , getPool   = pool    -- For Database
         }
-      runTLS defaultTlsSettings (setPort 443 defaultSettings)
+      runTLS (tlsSettings getCertificateFilePath getKeyFilePath) (setPort 443 defaultSettings)
         $ gzip def{gzipFiles = GzipCompress}
         $ wApp
