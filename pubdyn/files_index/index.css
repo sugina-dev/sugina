@@ -20,7 +20,7 @@ margin: 0;
 }
 
 p {
-line-height: 1.75;
+line-height: 1.5;
 }
 
 body > h1 {
@@ -38,13 +38,25 @@ body > div {
 margin: 1em;
 }
 
+a {
+text-decoration: none;
+}
+
+a:link {
+color: #0038ff;
+}
+
+a:hover {
+color: DeepPink;
+}
+
 .contents {
 background-image: linear-gradient(120deg, #a3fdff80, #9c43ff80, #ffc5fc80);
 border: 1px solid purple;
 border-radius: 7px;
 width: 80%;
 margin: 2em auto;
-padding: 1px 1em;
+padding: 1em;
 }
 
 @media screen and (max-width: 480px) {
@@ -59,12 +71,24 @@ padding-top: 1.5em;
 font-size: 125%;
 }
 
+.contents h2 {
+padding-left: 1em;
+}
+
 .contents article {
 background-color: rgba(255,255,255,0.25);
-border: 2px solid purple;
-border-radius: 7px;
-margin: 2em 0.5em;
-padding: 0.5em 1.5em;
+border: 1.5px solid purple;
+margin: 0 0.5em;
+padding: 1em 1.5em;
+}
+
+.contents article > h3 {
+margin: 0;
+}
+
+.contents article > p {
+margin-top: 0.5em;
+margin-bottom: 0;
 }
 
 .footer {
