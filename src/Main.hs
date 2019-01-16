@@ -36,16 +36,12 @@ main = do
     $ \pool -> liftIO $ do
       pridyn <- staticDevel getPridynPath  -- Private, Dynamic
       prista <- static      getPristaPath
-      pubdyn <- staticDevel "pubdyn"       -- Public, Dynamic
-      pubsta <- static      "pubsta"       -- Public, Static
       wApp <- toWaiApp App
         { getSecret = secret  -- For start-up configurations
         , getPridyn = pridyn  -- For static files
         , getPrista = prista  -- For static files
-        , getPubdyn = pubdyn  -- For static files
-        , getPubsta = pubsta  -- For static files
         , getPool   = pool    -- For Database
         }
-      runTLS (tlsSettings getCertificateFilePath getKeyFilePath) (setPort 443 defaultSettings)
+      runTLS (tlsSettings getCertificateFilePath getKeyFilePath) (setPort 3000 defaultSettings)
         $ gzip def{gzipFiles = GzipCompress}
         $ wApp

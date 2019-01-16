@@ -22,7 +22,7 @@ $ make bootstrap
 
 ## Project Structure
 
-Backend: `lib/`, `src/`; Frontend: `pubsta/`, `pubdyn/`
+`lib/`, `src/`
 
 ## APIs
 
@@ -37,10 +37,7 @@ Backend: `lib/`, `src/`; Frontend: `pubsta/`, `pubdyn/`
 | `/api/board/message` | **POST** | json String | json, `true` | `src/Handler/Board.hs` | User |
 | `/api/board/manage` | **GET** | / | all previous messages | `src/Handler/Board.hs` | Admin |
 | `/api/board/manage` | **POST** | `{ boardId: Int, reply: String }` | json, `true` | `src/Handler/Board.hs` | Admin |
-| `/font/AlexBrush-Regular.ttf` | **GET** | / | Alex Brush font (under SIL Open Font License) | `pubsta/font/AlexBrush-Regular.ttf` | / |
-| `/pubdyn/transform.css` | **GET** | / | global style sheet | `pubdyn/transform.css` | / |
 | `/pridyn/kakitsubata/index.csv` | **GET** | / | administrator posts, (a) html file name, (b) title | `~/path/to/pridyn/kakitsubata/Makefile` | Admin |
-| `/pubdyn/offprint/index.csv` | **GET** | / | public posts, (a) html file name, (b) title | `pubdyn/offprint/Makefile` | / |
 
 ## Secret
 

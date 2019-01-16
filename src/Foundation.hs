@@ -35,8 +35,6 @@ data App = App
   { getSecret :: !Secret
   , getPridyn :: !Static
   , getPrista :: !Static
-  , getPubdyn :: !Static
-  , getPubsta :: !Static
   , getPool   :: !ConnectionPool
   }
 
@@ -55,8 +53,6 @@ mkYesodData "App" [parseRoutesNoCheck|
 
 /pridyn PridynR Static getPridyn
 /prista PristaR Static getPrista
-/pubdyn PubdynR Static getPubdyn
-/ PubstaR Static getPubsta
 |]
 
 instance MonadFail (HandlerFor App) where
@@ -75,8 +71,6 @@ instance Yesod App where
   isAuthorized BoardManageR  _     = checkAdminById =<< maybeAuthId
   isAuthorized (PridynR _)   False = checkAdminById =<< maybeAuthId
   isAuthorized (PristaR _)   False = checkAdminById =<< maybeAuthId
-  isAuthorized (PubdynR _)   False = pure Authorized
-  isAuthorized (PubstaR _)   False = pure Authorized
   isAuthorized _             _     = checkAdminById =<< maybeAuthId
 
 checkLoggedInById :: Maybe ServerUserId -> AuthResult
