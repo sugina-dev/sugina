@@ -13,7 +13,6 @@ data Secret = Secret
   , getGitLabClientSecret  :: !Text
   , getApproot             :: !Text
   , getPridynPath          :: !FilePath
-  , getPristaPath          :: !FilePath
   , getCertificateFilePath :: !FilePath
   , getKeyFilePath         :: !FilePath
   } deriving (Generic, Show)

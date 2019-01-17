@@ -9,7 +9,7 @@ import Network.Wai.Handler.WarpTLS (tlsSettings, runTLS)
 import Network.Wai.Middleware.Gzip
 import Yesod
 import Yesod.Auth (getAuth)
-import Yesod.Static (static, staticDevel)
+import Yesod.Static (staticDevel)
 
 import DB
 import Foundation
@@ -27,7 +27,7 @@ mkYesodDispatch "App" resourcesApp
 main :: IO ()
 main = do
   -- Handling secret
-  Just secret@Secret{getPridynPath,getPristaPath,getCertificateFilePath,getKeyFilePath} <- decodeFileStrict ".secret.json"
+  Just secret@Secret{getPridynPath,getCertificateFilePath,getKeyFilePath} <- decodeFileStrict ".secret.json"
   -- Run migration
   runSqlite "data.db" $ runMigration migrateAll
   -- Start server
@@ -35,11 +35,9 @@ main = do
     $ withSqlitePool "data.db" 10  -- openConnectionCount
     $ \pool -> liftIO $ do
       pridyn <- staticDevel getPridynPath  -- Private, Dynamic
-      prista <- static      getPristaPath
       wApp <- toWaiApp App
         { getSecret = secret  -- For start-up configurations
         , getPridyn = pridyn  -- For static files
-        , getPrista = prista  -- For static files
         , getPool   = pool    -- For Database
         }
       runTLS (tlsSettings getCertificateFilePath getKeyFilePath) (setPort 3000 defaultSettings)

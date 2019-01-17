@@ -34,7 +34,6 @@ import Sugina.AuthHardcoded (authHardcodedAlter)
 data App = App
   { getSecret :: !Secret
   , getPridyn :: !Static
-  , getPrista :: !Static
   , getPool   :: !ConnectionPool
   }
 
@@ -42,17 +41,16 @@ mkYesodData "App" [parseRoutesNoCheck|
 / RootR GET
 /auth AuthR Auth getAuth
 
-/api/username UserNameR GET
-/api/isadmin IsAdminR GET
-/api/users UsersR GET
+/username UserNameR GET
+/isadmin IsAdminR GET
+/users UsersR GET
 
-/api/dictum DictumR GET
-/api/kunyomi/#Text KunyomiR GET
-/api/board/message BoardMessageR GET POST
-/api/board/manage BoardManageR GET POST
+/dictum DictumR GET
+/kunyomi/#Text KunyomiR GET
+/board/message BoardMessageR GET POST
+/board/manage BoardManageR GET POST
 
-/pridyn PridynR Static getPridyn
-/prista PristaR Static getPrista
+/ PridynR Static getPridyn
 |]
 
 instance MonadFail (HandlerFor App) where
@@ -70,7 +68,6 @@ instance Yesod App where
   isAuthorized BoardMessageR _     = fmap checkLoggedInById maybeAuthId
   isAuthorized BoardManageR  _     = checkAdminById =<< maybeAuthId
   isAuthorized (PridynR _)   False = checkAdminById =<< maybeAuthId
-  isAuthorized (PristaR _)   False = checkAdminById =<< maybeAuthId
   isAuthorized _             _     = checkAdminById =<< maybeAuthId
 
 checkLoggedInById :: Maybe ServerUserId -> AuthResult
