@@ -29,7 +29,7 @@ authHardcodedAlter = AuthPlugin "hardcoded" dispatch loginWidget
         <button type="submit" .btn .btn-success>_{Msg.LoginTitle}
     |]
     toWidgetHead [hamlet|<meta name="viewport" content="width=device-width, initial-scale=1.0">|]
-    addStylesheetRemote "/pubdyn/transform.css"
+    addStylesheetRemote "/transform.css"
 
 postLogin'R :: YesodAuthHardcoded site => AuthHandler site TypedContent
 postLogin'R = do
