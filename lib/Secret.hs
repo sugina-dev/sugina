@@ -13,8 +13,6 @@ data Secret = Secret
   , getGitLabClientSecret  :: !Text
   , getApproot             :: !Text
   , getPridynPath          :: !FilePath
-  , getCertificateFilePath :: !FilePath
-  , getKeyFilePath         :: !FilePath
   } deriving (Generic, Show)
 
 instance FromJSON Secret

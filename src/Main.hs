@@ -27,7 +27,7 @@ mkYesodDispatch "App" resourcesApp
 main :: IO ()
 main = do
   -- Handling secret
-  Just secret@Secret{getPridynPath,getCertificateFilePath,getKeyFilePath} <- decodeFileStrict ".secret.json"
+  Just secret@Secret{getPridynPath} <- decodeFileStrict ".secret.json"
   -- Run migration
   runSqlite "data.db" $ runMigration migrateAll
   -- Start server
@@ -40,6 +40,6 @@ main = do
         , getPridyn = pridyn  -- For static files
         , getPool   = pool    -- For Database
         }
-      runTLS (tlsSettings getCertificateFilePath getKeyFilePath) (setPort 3000 defaultSettings)
+      runTLS (tlsSettings "fullchain.pem" "privkey.pem") (setPort 3000 defaultSettings)
         $ gzip def{gzipFiles = GzipCompress}
         $ wApp
