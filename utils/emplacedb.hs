@@ -1,6 +1,7 @@
-{-# LANGUAGE NamedFieldPuns, OverloadedStrings #-}
+-- For emplacing the kunyomi data into the SQLite database.
+-- This file is supposed to be run at the root of the project (i.e. `..`).
 
--- Usage: Run by runhaskell.
+{-# LANGUAGE NamedFieldPuns, OverloadedStrings #-}
 
 import Data.Aeson (decodeFileStrict)
 import qualified Data.Map.Strict as M (keys)
