@@ -20,14 +20,10 @@ Callback URL of the application should be `<App Root>/auth/page/gitlab/callback`
 
 For `getApproot`, without the trailing `/`.
 
-### Pridyn
-
-Pridyn is a folder that contains administrator posts. Its contents are supposed to be accessed by `/pridyn` by the front end.
-
 ## Build and Run
 
 * **Prerequisite**: [Haskell Stack](https://www.haskellstack.org/)
-* **Build** (Once): setup `.secret.json` correctly, then `stack build`, `stack runhaskell -- -Wall -Werror utils/emplacedb.hs`
+* **Build** (Once): setup `.secret.json` correctly, then `stack build && stack runhaskell -- -Wall -Werror utils/emplacedb.hs`
 * **Build** (Many Times): `stack build`
 * **Run**: `stack exec -- sugina`
 
@@ -41,8 +37,8 @@ Pridyn is a folder that contains administrator posts. Its contents are supposed 
 
 | URI | Method | Path Parameter / Request Body | Return Value | Defined in | Auth |
 | :- | :- | :- | :- | :- | :- |
-| `/username` | **GET** | / | json, a nullable string | `src/Handler/UserName.hs` | / |
-| `/isadmin` | **GET** | / | json, `true` if is administrator, `null` if not logged in | `src/Handler/IsAdmin.hs` | / |
+| `/isuser` | **GET** | / | json, the user name | `src/Handler/UserName.hs` | User |
+| `/isadmin` | **GET** | / | json, `true` | `src/Handler/IsAdmin.hs` | Admin |
 | `/users` | **GET** | / | json array | `src/Handler/Users.hs` | Admin |
 | `/dictum` | **GET** | / | text | `src/Handler/Dictum.hs` | / |
 | `/kunyomi` | **GET** | the query word | json, an array of all the yomikata | `src/Handler/Kunyomi.hs` | / |
@@ -50,4 +46,5 @@ Pridyn is a folder that contains administrator posts. Its contents are supposed 
 | `/board/message` | **POST** | json String | json, `true` | `src/Handler/Board.hs` | User |
 | `/board/manage` | **GET** | / | all previous messages | `src/Handler/Board.hs` | Admin |
 | `/board/manage` | **POST** | `{ boardId: Int, reply: String }` | json, `true` | `src/Handler/Board.hs` | Admin |
-| `/pridyn` | **GET** | / | / | / | Admin |
+
+Unauthorized users will receive 403.

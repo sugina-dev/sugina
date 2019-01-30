@@ -4,7 +4,7 @@
 {-# LANGUAGE MultiParamTypeClasses      #-}
 {-# LANGUAGE TypeFamilies               #-}
 
-module DB where
+module Sugina.DB where
 
 import Data.Time.Clock (UTCTime)
 import Data.Text (Text)

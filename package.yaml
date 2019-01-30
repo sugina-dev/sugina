@@ -45,7 +45,6 @@ dependencies:
 - yesod-auth-oauth2 >= 0.6
 - yesod-core >= 1.6 && < 1.7
 - yesod-form >= 1.6 && < 1.7
-- yesod-static >= 1.6 && < 1.7
 
 library:
   source-dirs: lib
@@ -56,8 +55,6 @@ library:
   - -Werror
   dependencies:
   - aeson >= 0.6 && < 1.4
-  - directory >= 1.1 && < 1.4
-  - regex-pcre-builtin >= 0.94 && < 1
 
 executables:
   sugina:

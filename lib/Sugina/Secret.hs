@@ -1,6 +1,6 @@
 {-# LANGUAGE DeriveGeneric #-}
 
-module Secret where
+module Sugina.Secret where
 
 import Data.Aeson (FromJSON)
 import Data.Map.Strict (Map)
@@ -12,7 +12,6 @@ data Secret = Secret
   , getGitLabClientId      :: !Text
   , getGitLabClientSecret  :: !Text
   , getApproot             :: !Text
-  , getPridynPath          :: !FilePath
   } deriving (Generic, Show)
 
 instance FromJSON Secret

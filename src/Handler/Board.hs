@@ -10,8 +10,8 @@ import GHC.Generics
 import Yesod
 import Yesod.Auth (maybeAuthId)
 
-import DB
 import Foundation
+import Sugina.DB
 
 data GetBoardManageReturnValue = GetBoardManageReturnValue
   { msgid    :: !BoardId

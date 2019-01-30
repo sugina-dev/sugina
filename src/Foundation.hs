@@ -25,23 +25,21 @@ import Yesod.Auth
 import Yesod.Auth.Hardcoded
 import Yesod.Auth.OAuth2.GitLab
 import qualified Yesod.Auth.Message as Msg
-import Yesod.Static (Static)
 
-import DB
-import Secret
 import Sugina.AuthHardcoded (authHardcodedAlter)
+import Sugina.DB
+import Sugina.Secret
 
 data App = App
   { getSecret :: !Secret
-  , getPridyn :: !Static
   , getPool   :: !ConnectionPool
   }
 
-mkYesodData "App" [parseRoutesNoCheck|
+mkYesodData "App" [parseRoutes|
 / RootR GET
 /auth AuthR Auth getAuth
 
-/username UserNameR GET
+/isuser IsUserR GET
 /isadmin IsAdminR GET
 /users UsersR GET
 
@@ -49,8 +47,6 @@ mkYesodData "App" [parseRoutesNoCheck|
 /kunyomi/#Text KunyomiR GET
 /board/message BoardMessageR GET POST
 /board/manage BoardManageR GET POST
-
-/ PridynR Static getPridyn
 |]
 
 instance MonadFail (HandlerFor App) where
@@ -60,14 +56,13 @@ instance Yesod App where
   approot = ApprootMaster $ \App{getSecret} -> let Secret{getApproot} = getSecret in getApproot
   isAuthorized RootR         False = pure Authorized
   isAuthorized (AuthR _ )    _     = pure Authorized
-  isAuthorized UserNameR     False = pure Authorized
-  isAuthorized IsAdminR      False = pure Authorized
+  isAuthorized IsUserR       False = checkLoggedInById <$> maybeAuthId
+  isAuthorized IsAdminR      False = checkAdminById =<< maybeAuthId
   isAuthorized UsersR        False = checkAdminById =<< maybeAuthId
   isAuthorized DictumR       False = pure Authorized
   isAuthorized (KunyomiR _)  False = pure Authorized
-  isAuthorized BoardMessageR _     = fmap checkLoggedInById maybeAuthId
+  isAuthorized BoardMessageR _     = checkLoggedInById <$> maybeAuthId
   isAuthorized BoardManageR  _     = checkAdminById =<< maybeAuthId
-  isAuthorized (PridynR _)   False = checkAdminById =<< maybeAuthId
   isAuthorized _             _     = checkAdminById =<< maybeAuthId
 
 checkLoggedInById :: Maybe ServerUserId -> AuthResult

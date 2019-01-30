@@ -8,8 +8,8 @@ import Data.Text (Text)
 import Database.Persist
 import Yesod
 
-import DB
 import Foundation
+import Sugina.DB
 
 queryOne :: Text -> Handler [Text]
 queryOne wrd
