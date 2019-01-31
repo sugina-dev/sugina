@@ -10,8 +10,8 @@ import qualified Data.Text.IO as T
 import Database.Persist
 import Database.Persist.Sqlite
 
-import DB
-import Secret
+import Sugina.DB
+import Sugina.Secret
 
 main :: IO ()
 main = do

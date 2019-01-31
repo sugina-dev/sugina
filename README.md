@@ -1,29 +1,20 @@
 # Sugina
 
-_Sugina is the main back end for the Sugina Development Group website, and an open-source project built for our bright futures_
+_The main back end for the Sugina Development Group website_
 
 ## Configuration
 
-`.secret.json` is the configuration file. Its detailed format is defined in `lib/Secret.hs`.
+Before the premiere of the server program, the configuration file, `.secret.json`, should be set up correctly. Its detailed format is defined in `lib/Sugina/Secret.hs`.
 
-### Protogenic Users
-
-To ensure that there are some users that exists before the premiere of the server program, their user names and passwords should be set in `getHardcodedUsers`.
-
-### GitLab Client
-
-A GitLab application is needed to support GitHub login. `getGitLabClientId` should be the application ID, while `getGitLabClientSecret` should be the secret of the application.
-
-Callback URL of the application should be `<App Root>/auth/page/gitlab/callback`.
-
-### App Root
-
-For `getApproot`, without the trailing `/`.
+To support GitLab login, the callback URL of the GitLab application should be `<App Root>/api/auth/page/gitlab/callback`.
 
 ## Build and Run
 
 * **Prerequisite**: [Haskell Stack](https://www.haskellstack.org/)
-* **Build** (Once): setup `.secret.json` correctly, then `stack build && stack runhaskell -- -Wall -Werror utils/emplacedb.hs`
+* **Build** (Once):
+    - Setup `.secret.json` correctly
+    - `stack build`
+    - `stack runhaskell -- -Wall -Werror utils/emplacedb.hs`
 * **Build** (Many Times): `stack build`
 * **Run**: `stack exec -- sugina`
 
@@ -35,16 +26,22 @@ For `getApproot`, without the trailing `/`.
 
 ## APIs
 
-| URI | Method | Path Parameter / Request Body | Return Value | Defined in | Auth |
-| :- | :- | :- | :- | :- | :- |
-| `/isuser` | **GET** | / | json, the user name | `src/Handler/UserName.hs` | User |
-| `/isadmin` | **GET** | / | json, `true` | `src/Handler/IsAdmin.hs` | Admin |
-| `/users` | **GET** | / | json array | `src/Handler/Users.hs` | Admin |
-| `/dictum` | **GET** | / | text | `src/Handler/Dictum.hs` | / |
-| `/kunyomi` | **GET** | the query word | json, an array of all the yomikata | `src/Handler/Kunyomi.hs` | / |
-| `/board/message` | **GET** | / | all messages sent by current user | `src/Handler/Board.hs` | User |
-| `/board/message` | **POST** | json String | json, `true` | `src/Handler/Board.hs` | User |
-| `/board/manage` | **GET** | / | all previous messages | `src/Handler/Board.hs` | Admin |
-| `/board/manage` | **POST** | `{ boardId: Int, reply: String }` | json, `true` | `src/Handler/Board.hs` | Admin |
+All the APIs should be accessed with the `/api/` prefix.
 
-Unauthorized users will receive 401.
+All the APIs are defined in `src/Handler/`.
+
+The authorization process is defined in `src/Foundation.hs`.
+
+Unauthorized users will receive status code 401.
+
+| URI | Method | Parameters | Return Values | Authorization |
+| :- | :- | :- | :- | :- |
+| `/isuser` | **GET** | / | json, the user name | User |
+| `/isadmin` | **GET** | / | json, `true` | Administrator |
+| `/users` | **GET** | / | json array | Administrator |
+| `/dictum` | **GET** | / | text | / |
+| `/kunyomi` | **GET** | the query word | json, an array of all the yomikata | / |
+| `/board/message` | **GET** | / | all messages sent by current user | User |
+| `/board/message` | **POST** | json String | json, `true` | User |
+| `/board/manage` | **GET** | / | all previous messages | Administrator |
+| `/board/manage` | **POST** | `{ boardId: Int, reply: String }` | json, `true` | Administrator |
