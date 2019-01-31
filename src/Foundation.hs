@@ -37,16 +37,16 @@ data App = App
 
 mkYesodData "App" [parseRoutes|
 / RootR GET
-/auth AuthR Auth getAuth
+/api/auth AuthR Auth getAuth
 
-/isuser IsUserR GET
-/isadmin IsAdminR GET
-/users UsersR GET
+/api/isuser IsUserR GET
+/api/isadmin IsAdminR GET
+/api/users UsersR GET
 
-/dictum DictumR GET
-/kunyomi/#Text KunyomiR GET
-/board/message BoardMessageR GET POST
-/board/manage BoardManageR GET POST
+/api/dictum DictumR GET
+/api/kunyomi/#Text KunyomiR GET
+/api/board/message BoardMessageR GET POST
+/api/board/manage BoardManageR GET POST
 |]
 
 instance MonadFail (HandlerFor App) where
