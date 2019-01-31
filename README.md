@@ -47,4 +47,4 @@ For `getApproot`, without the trailing `/`.
 | `/board/manage` | **GET** | / | all previous messages | `src/Handler/Board.hs` | Admin |
 | `/board/manage` | **POST** | `{ boardId: Int, reply: String }` | json, `true` | `src/Handler/Board.hs` | Admin |
 
-Unauthorized users will receive 403.
+Unauthorized users will receive 401.
