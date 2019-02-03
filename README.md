@@ -23,7 +23,7 @@ To support GitLab login, there should be an OAuth application on GitLab, and the
 ## Build and Run
 
 * **Prerequisite**: [Haskell Stack](https://www.haskellstack.org/)
-* **Build** (First time): `stack build && stack runhaskell -- -Wall -Werror utils/emplacedb.hs`
+* **Build** (First time): `stack build && stack runhaskell -- -Wall -Werror util/Config.hs`
 * **Build** (Many times): `stack build`
 * **Run**: `stack exec -- sugina`
 
@@ -31,7 +31,7 @@ To support GitLab login, there should be an OAuth application on GitLab, and the
 
 * `lib/`: modules which are used by other modules
 * `src/`: source codes to compiled into binaries
-* `utils/`: scripts for the premiere of the server
+* `util/`: scripts for the premiere of the server
 
 ## APIs
 
@@ -41,13 +41,16 @@ The APIs are defined in `src/Handler/`.
 
 The authorization process is defined in `src/Foundation.hs`. Unauthorized users would receive status code 401.
 
+The responses are either in text form or in JSON form.
+
 | URI | Method | Parameters | Return Values | Authorization |
 | :- | :- | :- | :- | :- |
 | `/isuser` | **GET** | / | json, the user name | User |
 | `/isadmin` | **GET** | / | json, `true` | Administrator |
 | `/users` | **GET** | / | json array | Administrator |
 | `/dictum` | **GET** | / | text | / |
-| `/kunyomi` | **GET** | the query word | json, an array of all the yomikata | / |
+| `/kunyomi` | **GET** | q: ch | json, an array of all the yomikata | / |
+| `/hanja` | **GET** | q: ch | json, an array of all the yomikata | / |
 | `/board/message` | **GET** | / | all messages sent by current user | User |
 | `/board/message` | **POST** | json String | json, `true` | User |
 | `/board/manage` | **GET** | / | all previous messages | Administrator |

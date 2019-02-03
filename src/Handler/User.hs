@@ -9,10 +9,10 @@ import Foundation
 import Sugina.DB
 
 getIsUserR :: Handler Value
-getIsUserR = returnJson =<< (runMaybeT $ fmap serverUserName $ MaybeT . runDB . get =<< MaybeT maybeAuthId)
+getIsUserR = returnJson =<< runMaybeT (fmap serverUserName (MaybeT . runDB . get =<< MaybeT maybeAuthId))
 
 getIsAdminR :: Handler Value
 getIsAdminR = returnJson True  -- Already checked by `isAuthorized`
 
 getUsersR :: Handler Value
-getUsersR = returnJson =<< (runDB $ selectList ([] :: [Filter ServerUser]) [])
+getUsersR = returnJson =<< runDB (selectList ([] :: [Filter ServerUser]) [])

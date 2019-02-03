@@ -16,13 +16,17 @@ import Sugina.Secret
 main :: IO ()
 main = do
   -- Kunyomi
-  lns <- fmap T.lines $ T.readFile "utils/kunyomi.txt"
-  let (kunyomiWrd, yomikata) = unzip $ fmap ((\[l,r] -> (l, r)) . T.split (== '\t')) lns
+  kunLns <- fmap T.lines $ T.readFile "util/kunyomi.txt"
+  let (kunChar, kunYomikata) = unzip $ fmap ((\[l,r] -> (l, r)) . T.words) kunLns
+  -- Hanja
+  hanjaLns <- fmap T.lines $ T.readFile "util/hanja.txt"
+  let (hanjaChar, hanjaYomikata) = unzip $ fmap ((\[l,r] -> (l, r)) . T.words) hanjaLns
   -- ServerUser
   Just Secret{getHardcodedUsers} <- decodeFileStrict ".secret.json"
   let unames = M.keys getHardcodedUsers
   -- Migrate
   runSqlite "data.db" $ do
     runMigration migrateAll
-    insertMany_ $ zipWith Kunyomi kunyomiWrd yomikata
+    insertMany_ $ zipWith Kunyomi kunChar kunYomikata
+    insertMany_ $ zipWith Hanja hanjaChar hanjaYomikata
     insertMany_ $ fmap (\uname -> ServerUser "hardcoded" uname uname True) unames

@@ -13,7 +13,11 @@ import Database.Persist.TH
 
 share [mkPersist sqlSettings, mkMigrate "migrateAll"] [persistLowerCase|
 Kunyomi
-  wordEntity Text
+  char Text
+  yomikata Text
+  deriving Show
+Hanja
+  char Text
   yomikata Text
   deriving Show
 ServerUser json

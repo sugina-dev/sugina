@@ -13,7 +13,7 @@ import Yesod.Auth (getAuth)
 import Foundation
 import Handler.Board (getBoardManageR, getBoardMessageR, postBoardManageR, postBoardMessageR)
 import Handler.Dictum (getDictumR)
-import Handler.Kunyomi (getKunyomiR)
+import Handler.Kanji (getHanjaR, getKunyomiR)
 import Handler.Root (getRootR)
 import Handler.User (getIsUserR, getIsAdminR, getUsersR)
 import Sugina.DB
