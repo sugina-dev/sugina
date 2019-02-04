@@ -1,6 +1,8 @@
 module Handler.User (getIsUserR, getIsAdminR, getUsersR) where
 
 import Control.Monad.Trans.Maybe (MaybeT(MaybeT, runMaybeT))
+import Data.Maybe (fromJust)
+import Data.Text (Text)
 import Database.Persist.Sql
 import Yesod
 import Yesod.Auth (maybeAuthId)
@@ -8,11 +10,11 @@ import Yesod.Auth (maybeAuthId)
 import Foundation
 import Sugina.DB
 
-getIsUserR :: Handler Value
-getIsUserR = returnJson =<< runMaybeT (fmap serverUserName (MaybeT . runDB . get =<< MaybeT maybeAuthId))
+getIsUserR :: Handler Text
+getIsUserR = fmap fromJust $ runMaybeT (fmap serverUserName (MaybeT . runDB . get =<< MaybeT maybeAuthId))
 
-getIsAdminR :: Handler Value
-getIsAdminR = returnJson True  -- Already checked by `isAuthorized`
+getIsAdminR :: Handler ()
+getIsAdminR = pure ()  -- Already checked by `isAuthorized`
 
 getUsersR :: Handler Value
 getUsersR = returnJson =<< runDB (selectList ([] :: [Filter ServerUser]) [])

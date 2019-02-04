@@ -41,17 +41,22 @@ The APIs are defined in `src/Handler/`.
 
 The authorization process is defined in `src/Foundation.hs`. Unauthorized users would receive status code 401.
 
-The responses are either in text form or in JSON form.
+### **GET** Methods
 
-| URI | Method | Parameters | Return Values | Authorization |
+| URI | Path Parameters | Return Type | Return Values | Authorization |
 | :- | :- | :- | :- | :- |
-| `/isuser` | **GET** | / | json, the user name | User |
-| `/isadmin` | **GET** | / | json, `true` | Administrator |
-| `/users` | **GET** | / | json array | Administrator |
-| `/dictum` | **GET** | / | text | / |
-| `/kunyomi` | **GET** | q: ch | json, an array of all the yomikata | / |
-| `/hanja` | **GET** | q: ch | json, an array of all the yomikata | / |
-| `/board/message` | **GET** | / | all messages sent by current user | User |
-| `/board/message` | **POST** | json String | json, `true` | User |
-| `/board/manage` | **GET** | / | all previous messages | Administrator |
-| `/board/manage` | **POST** | `{ boardId: Int, reply: String }` | json, `true` | Administrator |
+| `/isuser` | / | text/plain | user name | User |
+| `/isadmin` | / | text/plain | / | Administrator |
+| `/users` | / | application/json | array | Administrator |
+| `/dictum` | / | text/plain | random dictum | / |
+| `/kunyomi` | q: ch | application/json | an array of all the yomikata | / |
+| `/hanja` | q: ch | application/json | an array of all the yomikata | / |
+| `/board/message` | / | application/json | all messages sent by current user | User |
+| `/board/manage` | / | application/json | all previous messages | Administrator |
+
+### **POST** Methods
+
+| URI | Parameters | Return Values | Authorization |
+| :- | :- | :- | :- |
+| `/board/message` | json String | / | User |
+| `/board/manage` | `{ boardId: Int, reply: String }` | / | Administrator |

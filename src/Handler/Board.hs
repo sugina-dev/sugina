@@ -5,8 +5,11 @@ module Handler.Board (getBoardManageR, getBoardMessageR, postBoardManageR, postB
 
 import Data.Text (Text)
 import Data.Time.Clock (UTCTime)
-import Database.Persist.Sql
-import GHC.Generics
+import Database.Esqueleto (InnerJoin(..), (^.), from, isNothing, on, select, set, updateCount, val, where_)
+import qualified Database.Esqueleto as E ((=.), (==.))
+import Database.Persist.Sql ((==.), rawExecute)
+import GHC.Generics (Generic)
+import Network.HTTP.Types.Status (badRequest400)
 import Yesod
 import Yesod.Auth (maybeAuthId)
 
@@ -23,9 +26,6 @@ data GetBoardManageReturnValue = GetBoardManageReturnValue
 
 instance ToJSON GetBoardManageReturnValue
 
-toGetBoardManageReturnValue :: (Single BoardId, Single UTCTime, Single Text, Single (Maybe Text), Single Text) -> GetBoardManageReturnValue
-toGetBoardManageReturnValue (Single a,Single b,Single c,Single d,Single e) = GetBoardManageReturnValue a b c d e
-
 data PostBoardManageRequestBody = PostBoardManageRequestBody
   { boardId :: !BoardId
   , reply   :: !Text
@@ -39,22 +39,39 @@ getBoardMessageR = do
   res <- runDB $ selectList [BoardUploader ==. uploader] []
   returnJson res
 
-postBoardMessageR :: Handler Value
+postBoardMessageR :: Handler ()
 postBoardMessageR = do
   Just uploader <- maybeAuthId
   comment <- requireJsonBody :: Handler Text
   runDB $ rawExecute "INSERT INTO board (uploader, message) VALUES (?, ?)" [toPersistValue uploader, PersistText comment]
-  returnJson True
 
 getBoardManageR :: Handler Value
-getBoardManageR = do
-  res <- runDB $ rawSql "SELECT board.id, board.time, board.message, board.reply, server_user.name\
-    \ FROM board JOIN server_user\
-    \ ON board.uploader = server_user.id" [] :: Handler [(Single BoardId, Single UTCTime, Single Text, Single (Maybe Text), Single Text)]
-  returnJson $ fmap toGetBoardManageReturnValue res
+getBoardManageR = returnJson =<< query
+ where
+  query :: Handler [GetBoardManageReturnValue]
+  query = runDB
+    $ fmap (fmap makeRet)
+    $ select
+    $ from
+    $ \(b `InnerJoin` s) -> do
+      on (b ^. BoardUploader E.==. s ^. ServerUserId)
+      pure (b, s)
+  makeRet :: (Entity Board, Entity ServerUser) -> GetBoardManageReturnValue
+  makeRet (b,s) = GetBoardManageReturnValue
+    { msgid    = entityKey b
+    , time     = boardTime $ entityVal b
+    , message  = boardMessage $ entityVal b
+    , replymsg = boardReply $ entityVal b
+    , userName = serverUserName $ entityVal s
+    }
 
-postBoardManageR :: Handler Value
+postBoardManageR :: Handler ()
 postBoardManageR = do
   PostBoardManageRequestBody{boardId,reply} <- requireJsonBody
-  runDB $ update boardId [BoardReply =. Just reply]
-  returnJson True
+  n <- runDB $ updateCount $ \m -> do
+      set m [BoardReply E.=. val (Just reply)]
+      where_ $ m ^. BoardId E.==. val boardId
+      where_ $ isNothing $ m ^. BoardReply
+  if n == 0
+     then sendResponseStatus badRequest400 ()
+     else pure ()
