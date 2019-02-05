@@ -8,6 +8,7 @@ copyright: "2018-2019 The Sugina Development Group"
 default-extensions:
 - GADTs
 - LambdaCase
+- NamedFieldPuns
 - OverloadedStrings
 - QuasiQuotes
 - TemplateHaskell

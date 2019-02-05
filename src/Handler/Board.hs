@@ -1,5 +1,4 @@
 {-# LANGUAGE DeriveGeneric  #-}
-{-# LANGUAGE NamedFieldPuns #-}
 
 module Handler.Board (getBoardManageR, getBoardMessageR, postBoardManageR, postBoardMessageR) where
 

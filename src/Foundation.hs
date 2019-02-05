@@ -1,7 +1,6 @@
 {-# LANGUAGE FlexibleInstances          #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE MultiParamTypeClasses      #-}
-{-# LANGUAGE NamedFieldPuns             #-}
 {-# LANGUAGE RecordWildCards            #-}
 {-# LANGUAGE TypeFamilies               #-}
 
@@ -18,8 +17,7 @@ import Data.Text (Text)
 import qualified Data.Text.Lazy as TL (fromStrict)
 import qualified Data.Text.Lazy.Encoding as TL (encodeUtf8)
 import Database.Persist
-import Database.Persist.Sql (ConnectionPool)
-import Database.Persist.Sqlite
+import Database.Persist.Sqlite (ConnectionPool, SqlBackend, runSqlPool)
 import Yesod
 import Yesod.Auth
 import Yesod.Auth.Hardcoded

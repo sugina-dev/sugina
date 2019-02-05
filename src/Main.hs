@@ -1,12 +1,11 @@
-{-# LANGUAGE NamedFieldPuns  #-}
 {-# OPTIONS_GHC -Wno-orphans #-}
 
 import Control.Monad.Logger (runStderrLoggingT)
 import Data.Aeson (decodeFileStrict)
-import Database.Persist.Sqlite
+import Database.Persist.Sqlite (runMigration, runSqlite, withSqlitePool)
 import Network.Wai.Handler.Warp (defaultSettings, setPort)
 import Network.Wai.Handler.WarpTLS (tlsSettings, runTLS)
-import Network.Wai.Middleware.Gzip
+import Network.Wai.Middleware.Gzip (GzipFiles(GzipCompress), def, gzip, gzipFiles)
 import Yesod
 import Yesod.Auth (getAuth)
 
@@ -28,7 +27,7 @@ main = do
   runSqlite "data.db" $ runMigration migrateAll
   -- Start server
   runStderrLoggingT
-    $ withSqlitePool "data.db" 10  -- openConnectionCount
+    $ withSqlitePool "data.db" 20  -- openConnectionCount
     $ \pool -> liftIO $ do
       wApp <- toWaiApp App
         { getSecret = secret  -- For start-up configurations
