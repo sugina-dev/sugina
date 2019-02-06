@@ -68,9 +68,9 @@ postBoardManageR :: Handler ()
 postBoardManageR = do
   PostBoardManageRequestBody{boardId,reply} <- requireJsonBody
   n <- runDB $ updateCount $ \m -> do
-      set m [BoardReply E.=. val (Just reply)]
-      where_ $ m ^. BoardId E.==. val boardId
-      where_ $ isNothing $ m ^. BoardReply
+    set m [BoardReply E.=. val (Just reply)]
+    where_ $ m ^. BoardId E.==. val boardId
+    where_ $ isNothing $ m ^. BoardReply
   if n == 0
-     then sendResponseStatus badRequest400 ()
-     else pure ()
+    then sendResponseStatus badRequest400 ()
+    else pure ()
