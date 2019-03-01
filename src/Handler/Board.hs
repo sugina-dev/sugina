@@ -41,7 +41,7 @@ getBoardMessageR = do
 postBoardMessageR :: Handler ()
 postBoardMessageR = do
   Just uploader <- maybeAuthId
-  comment <- requireJsonBody :: Handler Text
+  comment <- requireCheckJsonBody :: Handler Text
   runDB $ rawExecute "INSERT INTO board (uploader, message) VALUES (?, ?)" [toPersistValue uploader, PersistText comment]
 
 getBoardManageR :: Handler Value
@@ -66,7 +66,7 @@ getBoardManageR = returnJson =<< query
 
 postBoardManageR :: Handler ()
 postBoardManageR = do
-  PostBoardManageRequestBody{boardId,reply} <- requireJsonBody
+  PostBoardManageRequestBody{boardId,reply} <- requireCheckJsonBody
   n <- runDB $ updateCount $ \m -> do
     set m [BoardReply E.=. val (Just reply)]
     where_ $ m ^. BoardId E.==. val boardId

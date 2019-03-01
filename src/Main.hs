@@ -3,8 +3,7 @@
 import Control.Monad.Logger (runStderrLoggingT)
 import Data.Aeson (decodeFileStrict)
 import Database.Persist.Sqlite (runMigration, runSqlite, withSqlitePool)
-import Network.Wai.Handler.Warp (defaultSettings, setPort)
-import Network.Wai.Handler.WarpTLS (tlsSettings, runTLS)
+import Network.Wai.Handler.Warp (run)
 import Network.Wai.Middleware.Gzip (GzipFiles(GzipCompress), def, gzip, gzipFiles)
 import Yesod
 import Yesod.Auth (getAuth)
@@ -33,6 +32,6 @@ main = do
         { getSecret = secret  -- For start-up configurations
         , getPool   = pool    -- For Database
         }
-      runTLS (tlsSettings "fullchain.pem" "privkey.pem") (setPort 3000 defaultSettings)
+      run 3000
         $ gzip def{gzipFiles = GzipCompress}
         $ wApp
