@@ -14,7 +14,7 @@ import Sugina.DB
 main :: IO ()
 main = do
   -- Hanja
-  hanjaLns <- fmap T.lines $ T.readFile "util/hanja.txt"
+  hanjaLns <- fmap T.lines $ T.readFile "config/hanja.txt"
   let (char, yomikata) = unzip $ fmap ((\[l,r] -> (l, r)) . T.words) hanjaLns
   -- Migrate
   runSqlite "data.db" $ do

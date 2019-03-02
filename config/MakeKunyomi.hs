@@ -14,7 +14,7 @@ import Sugina.DB
 main :: IO ()
 main = do
   -- Kunyomi
-  kunLns <- fmap T.lines $ T.readFile "util/kunyomi.txt"
+  kunLns <- fmap T.lines $ T.readFile "config/kunyomi.txt"
   let (kunChar, kunYomikata) = unzip $ fmap ((\[l,r] -> (l, r)) . T.words) kunLns
   -- Migrate
   runSqlite "data.db" $ do
