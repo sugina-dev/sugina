@@ -6,7 +6,5 @@ client_session_key.aes
 *.db
 *.db-shm
 *.db-wal
-*.csr
-*.pem
 nohup.out
 .directory
