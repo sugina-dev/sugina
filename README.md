@@ -23,7 +23,13 @@ The configuration file, `.secret.json`, should be set up correctly before runnin
 ## Build and Run
 
 * **Prerequisite**: [Haskell Stack](https://www.haskellstack.org/)
-* **Configuration** (First time): `stack build && stack runhaskell -- -Wall -Werror util/Config.hs`
+* **Configuration** (First time):
+    ``` bash
+    stack build
+    stack runhaskell config/Config.hs
+    stack runhaskell config/MakeKunyomi.hs
+    stack runhaskell config/MakeHanja.hs
+    ```
 * **Build**: `stack build`
 * **Run**: `stack exec -- sugina`
 
@@ -35,7 +41,7 @@ The configuration file, `.secret.json`, should be set up correctly before runnin
     - `src/Foundation.hs`: core application (`App`), routes and instances
     - `src/Handler/`: route handlers (i.e. APIs)
     - `src/Main.hs`: application launcher
-* `util/`: scripts for configuration
+* `config/`: scripts for configuration
 
 ## APIs
 
