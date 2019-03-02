@@ -1,6 +1,6 @@
 {-# OPTIONS_GHC -Wno-orphans #-}
 
-import Control.Monad.Logger (runStderrLoggingT)
+import Control.Monad.Logger (runNoLoggingT)
 import Data.Aeson (decodeFileStrict)
 import Database.Persist.Sqlite (runMigration, runSqlite, withSqlitePool)
 import Network.Wai.Handler.Warp (run)
@@ -25,7 +25,7 @@ main = do
   -- Run migration
   runSqlite "data.db" $ runMigration migrateAll
   -- Start server
-  runStderrLoggingT
+  runNoLoggingT
     $ withSqlitePool "data.db" 20  -- openConnectionCount
     $ \pool -> liftIO $ do
       wApp <- toWaiApp App
