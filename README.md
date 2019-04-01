@@ -70,3 +70,8 @@ The authorization process of APIs is defined in `src/Foundation.hs`. Unauthorize
 | :- | :- | :- | :- | :- |
 | /board/message | application/json | string | / | User |
 | /board/manage | application/json | boardId, reply | / | Administrator |
+
+## Contributors
+
+* sgalal
+
